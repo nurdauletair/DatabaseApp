@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Қабылдаулар{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Қабылдаулар</h1><p class="sub">Науқастардың дәрігерге жазылуы</p></div>
+  <div class="actions"><a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a></div>
+</div>
+
+{% if stats.total %}
+<div class="stats">
+  <div class="stat"><div class="label">Табылды</div><div class="value">{{ stats.total }}</div></div>
+  <div class="stat"><div class="label">Орташа баға</div><div class="value">{{ stats.avg_price|floatformat:0 }} ₸</div></div>
+  <div class="stat"><div class="label">Жалпы сома</div><div class="value">{{ stats.sum_price|floatformat:0 }} ₸</div></div>
+</div>
+{% endif %}
+
+<form method="get" class="filters">
+  <div class="f">{{ form.q.label_tag }}{{ form.q }}</div>
+  <div class="f">{{ form.status.label_tag }}{{ form.status }}</div>
+  <div class="f">{{ form.doctor.label_tag }}{{ form.doctor }}</div>
+  <div class="f">{{ form.sort.label_tag }}{{ form.sort }}</div>
+  <button>Іздеу</button>
+  <a class="btn btn-secondary" href="{% url 'appointment_list' %}">Тазалау</a>
+</form>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Күні</th><th>Науқас</th><th>Дәрігер</th><th>Диагноздар</th><th class="num">Бағасы</th><th>Күйі</th><th></th></tr></thead>
+    <tbody>
+    {% for a in page_obj %}
+      <tr>
+        <td><a href="{% url 'appointment_detail' a.pk %}">{{ a.date|date:"d.m.Y H:i" }}</a></td>
+        <td>{{ a.patient }}</td>
+        <td>{{ a.doctor }}</td>
+        <td>{% for d in a.diagnoses.all %}<span class="tag">{{ d }}</span>{% endfor %}</td>
+        <td class="num">{{ a.price|floatformat:0 }} ₸</td>
+        <td><span class="badge badge-{{ a.status }}">{{ a.get_status_display }}</span></td>
+        <td class="row-actions">
+          <a href="{% url 'appointment_update' a.pk %}">Өңдеу</a> ·
+          <a class="link-danger" href="{% url 'appointment_delete' a.pk %}">Жою</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="7" class="empty">Қабылдаулар табылмады.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "blog/_pagination.html" %}
+{% endblock %}

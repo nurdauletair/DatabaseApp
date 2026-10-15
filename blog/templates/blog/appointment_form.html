@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{% if appointment %}Өңдеу{% else %}Жаңа қабылдау{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% if appointment %}Өңдеу: қабылдау #{{ appointment.pk }}{% else %}Жаңа қабылдау{% endif %}</h1></div>
+<div class="card form-card">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "blog/_form_fields.html" %}
+    <div class="form-actions">
+      <button>Сақтау</button>
+      <a class="btn btn-secondary" href="{% url 'appointment_list' %}">Болдырмау</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

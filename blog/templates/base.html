@@ -1,0 +1,32 @@
+{% load static %}<!doctype html>
+<html lang="kk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Емхана{% endblock %} · Емхана</title>
+  <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="{% url 'home' %}"><span class="logo">+</span> Емхана</a>
+      <nav class="site-nav">
+        <a href="{% url 'appointment_list' %}" {% if '/appointments/' in request.path %}class="active"{% endif %}>Қабылдаулар</a>
+        <a href="{% url 'patient_list' %}" {% if '/patients/' in request.path %}class="active"{% endif %}>Науқастар</a>
+        <a href="{% url 'doctor_list' %}" {% if '/doctors/' in request.path %}class="active"{% endif %}>Дәрігерлер</a>
+      </nav>
+      <span class="admin-links"><a class="admin-link" href="/api/">REST API</a> · <a class="admin-link" href="/admin/">Әкімшілік панелі</a></span>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}<li class="{{ message.tags }}">{{ message }}</li>{% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">Емхана · оқу жобасы</footer>
+</body>
+</html>

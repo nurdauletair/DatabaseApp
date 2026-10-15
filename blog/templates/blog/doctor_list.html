@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Дәрігерлер{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Дәрігерлер</h1><p class="sub">Мамандар және олардың жұмыс көрсеткіштері</p></div>
+  <div class="actions"><a class="btn" href="{% url 'doctor_create' %}">+ Жаңа дәрігер</a></div>
+</div>
+
+<form method="get" class="filters">
+  <div class="f"><label for="q">Іздеу</label><input type="text" id="q" name="q" value="{{ q }}" placeholder="Аты-жөні"></div>
+  <div class="f"><label for="specialty">Мамандығы</label>
+    <select id="specialty" name="specialty">
+      <option value="">Барлық мамандық</option>
+      {% for value, label in specialties %}<option value="{{ value }}" {% if value == specialty %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <button>Іздеу</button>
+  <a class="btn btn-secondary" href="{% url 'doctor_list' %}">Тазалау</a>
+</form>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Аты-жөні</th><th>Мамандығы</th><th>Телефон</th><th class="num">Қабылдау саны</th><th class="num">Орташа баға</th><th></th></tr></thead>
+    <tbody>
+    {% for d in doctors %}
+      <tr>
+        <td><a href="{% url 'doctor_detail' d.pk %}">{{ d.full_name }}</a></td>
+        <td>{{ d.get_specialty_display }}</td>
+        <td>{{ d.phone|default:"—" }}</td>
+        <td class="num">{{ d.n_appointments }}</td>
+        <td class="num">{% if d.avg_price %}{{ d.avg_price|floatformat:0 }} ₸{% else %}—{% endif %}</td>
+        <td class="row-actions">
+          <a href="{% url 'doctor_update' d.pk %}">Өңдеу</a> ·
+          <a class="link-danger" href="{% url 'doctor_delete' d.pk %}">Жою</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="empty">Дәрігерлер табылмады.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "blog/_pagination.html" %}
+{% endblock %}

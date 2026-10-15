@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Қабылдау #{{ appointment.pk }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Қабылдау #{{ appointment.pk }}</h1><p class="sub">{{ appointment.date|date:"d.m.Y H:i" }}</p></div>
+  <div class="actions">
+    <a class="btn" href="{% url 'appointment_update' appointment.pk %}">Өңдеу</a>
+    <a class="btn btn-danger" href="{% url 'appointment_delete' appointment.pk %}">Жою</a>
+    <a class="btn btn-secondary" href="{% url 'appointment_list' %}">← Тізімге</a>
+  </div>
+</div>
+<div class="card flush">
+  <table class="detail-table">
+    <tr><th>Науқас</th><td><a href="{% url 'patient_detail' appointment.patient.pk %}">{{ appointment.patient }}</a></td></tr>
+    <tr><th>Дәрігер</th><td><a href="{% url 'doctor_detail' appointment.doctor.pk %}">{{ appointment.doctor }}</a> · {{ appointment.doctor.get_specialty_display }}</td></tr>
+    <tr><th>Диагноздар</th><td>{% for d in appointment.diagnoses.all %}<span class="tag">{{ d }}</span>{% empty %}<span class="muted">—</span>{% endfor %}</td></tr>
+    <tr><th>Бағасы</th><td>{{ appointment.price|floatformat:0 }} ₸</td></tr>
+    <tr><th>Ұзақтығы</th><td>{{ appointment.duration }} мин</td></tr>
+    <tr><th>Күйі</th><td><span class="badge badge-{{ appointment.status }}">{{ appointment.get_status_display }}</span></td></tr>
+  </table>
+</div>
+{% endblock %}

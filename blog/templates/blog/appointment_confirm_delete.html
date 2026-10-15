@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Жоюды растау{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Жоюды растау</h1></div>
+<div class="card form-card">
+  <p>«{{ appointment }}» қабылдауын шынымен жою керек пе?</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button class="btn-danger">Иә, жою</button>
+      <a class="btn btn-secondary" href="{% url 'appointment_detail' appointment.pk %}">Жоқ</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

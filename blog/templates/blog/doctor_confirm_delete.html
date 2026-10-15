@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Жоюды растау{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Жоюды растау</h1></div>
+<div class="card form-card">
+  {% with n=doctor.appointments.count %}
+    {% if n %}
+      <p>«{{ doctor.full_name }}» дәрігерінде <strong>{{ n }} қабылдау</strong> бар, сондықтан оны жоюға болмайды.</p>
+      <p class="muted">Алдымен осы дәрігердің қабылдауларын жойыңыз немесе басқа дәрігерге ауыстырыңыз.</p>
+      <div class="form-actions"><a class="btn btn-secondary" href="{% url 'doctor_detail' doctor.pk %}">← Дәрігерге оралу</a></div>
+    {% else %}
+      <p>«{{ doctor.full_name }}» дәрігерін шынымен жою керек пе?</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+          <button class="btn-danger">Иә, жою</button>
+          <a class="btn btn-secondary" href="{% url 'doctor_list' %}">Жоқ</a>
+        </div>
+      </form>
+    {% endif %}
+  {% endwith %}
+</div>
+{% endblock %}

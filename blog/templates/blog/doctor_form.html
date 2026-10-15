@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{% if doctor %}Өңдеу{% else %}Жаңа дәрігер{% endif %}{% endblock %}
+{% block content %}
+<div class="page-head"><h1>{% if doctor %}Өңдеу: {{ doctor.full_name }}{% else %}Жаңа дәрігер{% endif %}</h1></div>
+<div class="card form-card">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "blog/_form_fields.html" %}
+    <div class="form-actions">
+      <button>Сақтау</button>
+      <a class="btn btn-secondary" href="{% url 'doctor_list' %}">Болдырмау</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

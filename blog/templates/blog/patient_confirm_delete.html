@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Жоюды растау{% endblock %}
+{% block content %}
+<div class="page-head"><h1>Жоюды растау</h1></div>
+<div class="card form-card">
+  <p>«{{ patient.full_name }}» науқасын шынымен жою керек пе?</p>
+  <p><strong>{{ patient.appointments.count }} қабылдау да жойылады.</strong></p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-actions">
+      <button class="btn-danger">Иә, жою</button>
+      <a class="btn btn-secondary" href="{% url 'patient_list' %}">Жоқ</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

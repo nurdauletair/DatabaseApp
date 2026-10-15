@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ patient.full_name }}{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>{{ patient.full_name }}</h1><p class="sub">Туған күні: {{ patient.birth_date|date:"d.m.Y" }}</p></div>
+  <div class="actions">
+    <a class="btn" href="{% url 'patient_update' patient.pk %}">Өңдеу</a>
+    <a class="btn btn-danger" href="{% url 'patient_delete' patient.pk %}">Жою</a>
+    <a class="btn btn-secondary" href="{% url 'patient_list' %}">← Тізімге</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Дәрігерлер</h2>
+  {% for d in doctors %}<a class="tag" href="{% url 'doctor_detail' d.pk %}">{{ d }}</a>{% empty %}<span class="muted">Тағайындалмаған</span>{% endfor %}
+</div>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Күні</th><th>Дәрігер</th><th>Диагноздар</th><th class="num">Бағасы</th><th>Күйі</th></tr></thead>
+    <tbody>
+    {% for a in appointments %}
+      <tr>
+        <td><a href="{% url 'appointment_detail' a.pk %}">{{ a.date|date:"d.m.Y H:i" }}</a></td>
+        <td>{{ a.doctor }}</td>
+        <td>{% for d in a.diagnoses.all %}<span class="tag">{{ d }}</span>{% endfor %}</td>
+        <td class="num">{{ a.price|floatformat:0 }} ₸</td>
+        <td><span class="badge badge-{{ a.status }}">{{ a.get_status_display }}</span></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="empty">Қабылдаулар жоқ.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

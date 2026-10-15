@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Науқастар{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Науқастар</h1><p class="sub">Тіркелген науқастар және олардың қабылдаулары</p></div>
+  <div class="actions"><a class="btn" href="{% url 'patient_create' %}">+ Жаңа науқас</a></div>
+</div>
+
+<form method="get" class="filters">
+  <div class="f"><label for="q">Іздеу</label><input type="text" id="q" name="q" value="{{ q }}" placeholder="Аты-жөні"></div>
+  <button>Іздеу</button>
+  <a class="btn btn-secondary" href="{% url 'patient_list' %}">Тазалау</a>
+</form>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Аты-жөні</th><th>Туған күні</th><th>Дәрігерлер</th><th class="num">Қабылдау саны</th><th></th></tr></thead>
+    <tbody>
+    {% for p in patients %}
+      <tr>
+        <td><a href="{% url 'patient_detail' p.pk %}">{{ p.full_name }}</a></td>
+        <td>{{ p.birth_date|date:"d.m.Y" }}</td>
+        <td>{% for d in p.doctors.all %}<span class="tag">{{ d }}</span>{% endfor %}</td>
+        <td class="num">{{ p.n_appointments }}</td>
+        <td class="row-actions">
+          <a href="{% url 'patient_update' p.pk %}">Өңдеу</a> ·
+          <a class="link-danger" href="{% url 'patient_delete' p.pk %}">Жою</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="empty">Науқастар табылмады.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "blog/_pagination.html" %}
+{% endblock %}

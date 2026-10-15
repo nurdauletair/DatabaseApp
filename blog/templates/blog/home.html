@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Басты бет{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Емхана</h1><p class="sub">Қабылдаулар, науқастар және дәрігерлер бір жерде</p></div>
+  <div class="actions"><a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a></div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="label">Қабылдау</div><div class="value">{{ totals.n }}</div></div>
+  <div class="stat"><div class="label">Науқас</div><div class="value">{{ n_patients }}</div></div>
+  <div class="stat"><div class="label">Дәрігер</div><div class="value">{{ n_doctors }}</div></div>
+  <div class="stat"><div class="label">Жалпы сома</div><div class="value">{{ totals.sum_price|default:0|floatformat:0 }} ₸</div></div>
+</div>
+
+<div class="card">
+  <h2>Күйлері бойынша</h2>
+  <p>
+    {% for label, code, n in by_status %}
+      <span class="badge badge-{{ code }}">{{ label }}: {{ n }}</span>
+    {% empty %}<span class="muted">Деректер жоқ.</span>{% endfor %}
+  </p>
+</div>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Ең белсенді дәрігерлер</th><th class="num">Қабылдау саны</th></tr></thead>
+    <tbody>
+    {% for d in top_doctors %}
+      <tr><td><a href="{% url 'doctor_detail' d.pk %}">{{ d.full_name }}</a></td><td class="num">{{ d.n_appointments }}</td></tr>
+    {% empty %}<tr><td colspan="2" class="empty">Дәрігерлер жоқ.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="card flush table-wrap">
+  <table>
+    <thead><tr><th>Соңғы қабылдаулар</th><th>Науқас</th><th>Дәрігер</th><th>Күйі</th></tr></thead>
+    <tbody>
+    {% for a in recent %}
+      <tr>
+        <td><a href="{% url 'appointment_detail' a.pk %}">{{ a.date|date:"d.m.Y H:i" }}</a></td>
+        <td>{{ a.patient }}</td><td>{{ a.doctor }}</td>
+        <td><span class="badge badge-{{ a.status }}">{{ a.get_status_display }}</span></td>
+      </tr>
+    {% empty %}<tr><td colspan="4" class="empty">Қабылдаулар жоқ.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
