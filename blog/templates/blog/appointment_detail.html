@@ -4,8 +4,11 @@
 <div class="page-head">
   <div><h1>Қабылдау #{{ appointment.pk }}</h1><p class="sub">{{ appointment.date|date:"d.m.Y H:i" }}</p></div>
   <div class="actions">
-    <a class="btn" href="{% url 'appointment_update' appointment.pk %}">Өңдеу</a>
-    <a class="btn btn-danger" href="{% url 'appointment_delete' appointment.pk %}">Жою</a>
+    {% if perms.blog.confirm_appointment and appointment.status == 'planned' %}
+      <form method="post" action="{% url 'appointment_confirm' appointment.pk %}">{% csrf_token %}<button>Растау</button></form>
+    {% endif %}
+    {% if perms.blog.change_appointment %}<a class="btn" href="{% url 'appointment_update' appointment.pk %}">Өңдеу</a>{% endif %}
+    {% if perms.blog.delete_appointment %}<a class="btn btn-danger" href="{% url 'appointment_delete' appointment.pk %}">Жою</a>{% endif %}
     <a class="btn btn-secondary" href="{% url 'appointment_list' %}">← Тізімге</a>
   </div>
 </div>

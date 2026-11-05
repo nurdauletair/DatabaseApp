@@ -11,16 +11,29 @@
 - **Веб-CRUD:** қабылдаулар (функциялық көріністер), науқастар мен дәрігерлер (класс көріністері);
   `ModelForm` және қазақша валидация; іздеу, сүзу, сұрыптау, беттеу; басты бетте қорытынды көрсеткіштер.
 - **REST API (DRF):** `ModelSerializer`, `ModelViewSet`, `DefaultRouter`, толық CRUD (JSON),
-  іздеу/сұрыптау/сүзу, беттеу, `IsAuthenticatedOrReadOnly` рұқсаты.
+  іздеу/сұрыптау/сүзу, беттеу, модель рұқсаттары және объект деңгейіндегі шектеу.
 - **ORM сапасы:** `select_related`, `prefetch_related`, `annotate`, `aggregate`; N+1 жоқ (тестпен бекітілген).
 - **Тесттер:** модель, веб және API тесттері.
 - **Әкімшілік панелі:** барлық модель, іздеу, сүзгі, «Өтті деп белгілеу» әрекеті.
 
+## 10-ЗС: пайдаланушылар, рөлдер, сеанстар және токендер
+
+Толық нұсқаулық, PostgreSQL баптау, құқықтар кестесі, curl сұраныстары және қорғау сұрақтары: **[LAB10.md](LAB10.md)**.
+
+- `accounts.User(AbstractUser)` + телефон; тіркелу тек `patient` рөлін береді.
+- `/signup/`, `/login/`, POST `/logout/`, `/profile/`, POST `/logout-all/`.
+- Науқас `/appointments/book/` арқылы өзіне жазылады; тіркеуші жазбаны растайды.
+- Token: `/api/token/`, `/api/token/logout/`. JWT: `/api/jwt/`, `/api/jwt/refresh/`, `/api/jwt/logout/`.
+- Қосымша B: refresh blacklist, ротация, ескі refresh-ті қайта қолдануға тыйым.
+- `DB_ENGINE=postgresql` — PostgreSQL; жаңа таза база үшін `DB_ENGINE=sqlite` — SQLite.
+- Ескі `auth.User` бар SQLite-қа осы тармақтан жай ғана `migrate` жасамаңыз. Ескі база көшірмесі сақталған; деректер жаңа базаға көшіріледі.
+
 ## Орнату және іске қосу
 
 ```bash
-git clone <репозиторий-сілтемесі>
-cd <папка>
+git clone https://github.com/nurdauletair/DatabaseApp.git
+cd DatabaseApp
+git switch lab10-auth
 python3 -m venv venv
 source venv/bin/activate            # Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -30,7 +43,8 @@ python -c "from django.core.management.utils import get_random_secret_key as k; 
 # шыққан мәнді .env ішіндегі DJANGO_SECRET_KEY-ге жазыңыз
 
 python manage.py migrate
-python manage.py createsuperuser    # API мен әкімшілік панеліне кіру үшін
+python manage.py setup_roles        # patient / doctor / registrar
+python manage.py createsuperuser    # әкімші аккаунты
 python manage.py seed               # демо-деректер: 20 дәрігер, 30 науқас, 100 қабылдау
 python manage.py runserver
 ```
@@ -40,7 +54,7 @@ python manage.py runserver
 ## Тесттер
 
 ```bash
-python manage.py test blog
+python manage.py test
 ```
 
 ## Веб-беттер
@@ -69,16 +83,15 @@ python manage.py test blog
 
 Параметрлер: `?search=`, `?ordering=-price`, `?status=done`, `?doctor=3`, `?page=2`.
 
-**Рұқсаттар:** оқуға (GET) бәріне ашық; жазуға, өзгертуге және өшіруге тек кірген қолданушыға рұқсат
-(`IsAuthenticatedOrReadOnly`). Браузерде кіру: `/api-auth/login/`.
+**Рұқсаттар:** анонимге API `401`, рұқсатсыз әрекетке `403`. Науқас өз жазбаларын, дәрігер өз қабылдауларын, тіркеуші барлық жазбаны көреді. Тізімдер мен статистика да шектелген. Бөгде API объектісі — `404`. Браузерде кіру: `/login/` немесе `/api-auth/login/`.
 Қабылдаулары бар дәрігерді өшіруге тырысқанда API `409 Conflict` қайтарады.
 
-Мысал (curl, кіру үшін Basic auth):
+Мысал (curl, тіркеушінің Token токенімен):
 
 ```bash
-curl "http://127.0.0.1:8000/api/appointments/?status=planned"
+curl -H "Authorization: Token <TOKEN>" "http://127.0.0.1:8000/api/appointments/?status=planned"
 
-curl -u admin:ПАРОЛЬ -X POST http://127.0.0.1:8000/api/appointments/ \
+curl -H "Authorization: Token <TOKEN>" -X POST http://127.0.0.1:8000/api/appointments/ \
   -H "Content-Type: application/json" \
   -d '{"doctor_id": 1, "patient_id": 1, "diagnoses": ["Грипп"],
        "price": "4500.00", "duration": 30, "status": "planned",

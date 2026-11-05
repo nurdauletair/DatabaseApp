@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Жеке кабинет{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Жеке кабинет</h1><p class="sub">{{ user.username }} · {{ user.role_label }}</p></div>
+  {% if perms.blog.book_appointment %}<a class="btn" href="{% url 'appointment_book' %}">Қабылдауға жазылу</a>{% endif %}
+</div>
+<div class="card"><h2>Пайдаланушы</h2>
+  <p>Логин: {{ user.username }}<br>Пошта: {{ user.email|default:"—" }}<br>Телефон: {{ user.phone|default:"—" }}</p>
+  {% if user.patient_profile %}<p>Науқас: {{ user.patient_profile.full_name }}</p>{% endif %}
+  {% if user.doctor_profile %}<p>Дәрігер: {{ user.doctor_profile.full_name }}</p>{% endif %}
+</div>
+<div class="card"><h2>Ағымдағы сеанс</h2>
+  <p>Кілт: <code class="session-key">{{ session_key }}</code><br>Аяқталу уақыты: {{ expiry|date:"d.m.Y H:i:s" }}<br>Осы бетті ашу саны: {{ visits }}</p>
+  <p class="muted">Сеанс кілтін басқа адамға бермеңіз. Сеанс 8 сағатқа ашылады.</p>
+  <form method="post" action="{% url 'logout_all' %}">{% csrf_token %}<button class="btn-danger">Барлық құрылғылардан шығу</button></form>
+</div>
+<div class="card"><h2>Рұқсаттар</h2><ul>{% for permission in permissions %}<li><code>{{ permission }}</code></li>{% empty %}<li>Рұқсаттар жоқ.</li>{% endfor %}</ul></div>
+{% endblock %}

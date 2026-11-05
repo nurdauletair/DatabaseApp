@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.test import TestCase
+from .test_helpers import StaffTestCase
 from django.urls import reverse
 from django.utils import timezone
 
@@ -13,7 +13,7 @@ def make_appointment(doctor, patient, **kw):
     return Appointment.objects.create(doctor=doctor, patient=patient, **kw)
 
 
-class HomeTests(TestCase):
+class HomeTests(StaffTestCase):
     def test_home_shows_totals(self):
         d = Doctor.objects.create(full_name="Асқар Нұрлан")
         p = Patient.objects.create(full_name="Айгүл Серік", birth_date="1990-01-01")
@@ -24,8 +24,9 @@ class HomeTests(TestCase):
         self.assertContains(r, "Асқар Нұрлан")
 
 
-class DoctorCrudTests(TestCase):
+class DoctorCrudTests(StaffTestCase):
     def setUp(self):
+        super().setUp()
         self.doctor = Doctor.objects.create(full_name="Асқар Нұрлан")
         self.patient = Patient.objects.create(
             full_name="Айгүл Серік", birth_date="1990-01-01")
@@ -73,7 +74,7 @@ class DoctorCrudTests(TestCase):
         self.assertEqual(Doctor.objects.count(), 1)
 
 
-class PatientDetailTests(TestCase):
+class PatientDetailTests(StaffTestCase):
     def test_detail_shows_appointments(self):
         d = Doctor.objects.create(full_name="Асқар Нұрлан")
         p = Patient.objects.create(full_name="Айгүл Серік", birth_date="1990-01-01")
@@ -83,8 +84,9 @@ class PatientDetailTests(TestCase):
         self.assertContains(r, "Асқар Нұрлан")
 
 
-class AppointmentListFilterTests(TestCase):
+class AppointmentListFilterTests(StaffTestCase):
     def setUp(self):
+        super().setUp()
         self.d1 = Doctor.objects.create(full_name="Асқар Нұрлан")
         self.d2 = Doctor.objects.create(full_name="Бақыт Серіков")
         self.p = Patient.objects.create(full_name="Айгүл Серік", birth_date="1990-01-01")
@@ -118,5 +120,5 @@ class AppointmentListFilterTests(TestCase):
 
     def test_list_query_count_is_constant(self):
         # 3 сұраныс: COUNT, қабылдаулар (JOIN), диагноздар (prefetch) + doctor-select
-        with self.assertNumQueries(5):
+        with self.assertNumQueries(7):  # plus session and user lookup
             self.client.get(reverse("appointment_list"))

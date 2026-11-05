@@ -1,7 +1,13 @@
 from django.db import models
+from django.conf import settings
 
 
 class Doctor(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="doctor_profile",
+        verbose_name="Пайдаланушы",
+    )
     class Specialty(models.TextChoices):
         THERAPIST = "therapist", "Терапевт"
         SURGEON = "surgeon", "Хирург"
@@ -27,6 +33,11 @@ class Doctor(models.Model):
 
 
 class Patient(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="patient_profile",
+        verbose_name="Пайдаланушы",
+    )
     full_name = models.CharField("Аты-жөні", max_length=150)
     birth_date = models.DateField("Туған күні")
     doctors = models.ManyToManyField(
@@ -57,6 +68,7 @@ class Diagnosis(models.Model):
 class Appointment(models.Model):
     class Status(models.TextChoices):
         PLANNED = "planned", "Жоспарланған"
+        CONFIRMED = "confirmed", "Расталған"
         DONE = "done", "Өтті"
         CANCELLED = "cancelled", "Бас тартылды"
 
@@ -83,6 +95,11 @@ class Appointment(models.Model):
         ordering = ["-date"]
         verbose_name = "Қабылдау"
         verbose_name_plural = "Қабылдаулар"
+        permissions = [
+            ("book_appointment", "Өзіне қабылдауға жазылу"),
+            ("confirm_appointment", "Қабылдауды растау"),
+            ("manage_clinic", "Емхананың барлық жазбасын басқару"),
+        ]
 
     def __str__(self):
         return f"{self.patient} → {self.doctor} ({self.date:%d.%m.%Y})"

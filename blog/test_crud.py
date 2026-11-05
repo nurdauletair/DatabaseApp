@@ -1,14 +1,15 @@
 from datetime import timedelta
 
-from django.test import TestCase
+from .test_helpers import StaffTestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from .models import Appointment, Diagnosis, Doctor, Patient
 
 
-class AppointmentCrudTests(TestCase):
+class AppointmentCrudTests(StaffTestCase):
     def setUp(self):
+        super().setUp()
         self.doctor = Doctor.objects.create(full_name="Асқар Нұрлан")
         self.patient = Patient.objects.create(
             full_name="Айгүл Серік", birth_date="1990-01-01")
@@ -77,8 +78,9 @@ class AppointmentCrudTests(TestCase):
         self.assertEqual(r.status_code, 404)
 
 
-class PatientCrudTests(TestCase):
+class PatientCrudTests(StaffTestCase):
     def setUp(self):
+        super().setUp()
         self.doctor = Doctor.objects.create(full_name="Асқар Нұрлан")
         self.patient = Patient.objects.create(
             full_name="Айгүл Серік", birth_date="1990-01-01")

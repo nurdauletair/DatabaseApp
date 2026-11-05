@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Тіркелу{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Науқас ретінде тіркелу</h1><p class="sub">Дәрігер мен тіркеуші рөлін әкімші тағайындайды</p></div></div>
+<form method="post" class="card form-card">
+  {% csrf_token %}
+  {% include "blog/_form_fields.html" %}
+  <div class="form-actions"><button>Тіркелу</button><a href="{% url 'login' %}">Менде аккаунт бар</a></div>
+</form>
+{% endblock %}

@@ -8,8 +8,10 @@ urlpatterns = [
     # қабылдаулар (FBV)
     path("appointments/", views.appointment_list, name="appointment_list"),
     path("appointments/new/", views.appointment_create, name="appointment_create"),
+    path("appointments/book/", views.appointment_book, name="appointment_book"),
     path("appointments/<int:pk>/", views.appointment_detail, name="appointment_detail"),
     path("appointments/<int:pk>/edit/", views.appointment_update, name="appointment_update"),
+    path("appointments/<int:pk>/confirm/", views.appointment_confirm, name="appointment_confirm"),
     path("appointments/<int:pk>/delete/", views.appointment_delete, name="appointment_delete"),
 
     # науқастар (CBV)

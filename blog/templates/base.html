@@ -11,11 +11,21 @@
     <div class="inner">
       <a class="brand" href="{% url 'home' %}"><span class="logo">+</span> Емхана</a>
       <nav class="site-nav">
+        {% if user.is_authenticated %}
         <a href="{% url 'appointment_list' %}" {% if '/appointments/' in request.path %}class="active"{% endif %}>Қабылдаулар</a>
         <a href="{% url 'patient_list' %}" {% if '/patients/' in request.path %}class="active"{% endif %}>Науқастар</a>
         <a href="{% url 'doctor_list' %}" {% if '/doctors/' in request.path %}class="active"{% endif %}>Дәрігерлер</a>
+        {% endif %}
       </nav>
-      <span class="admin-links"><a class="admin-link" href="/api/">REST API</a> · <a class="admin-link" href="/admin/">Әкімшілік панелі</a></span>
+      <div class="account-nav">
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile' %}">{{ user.username }}</a>
+          {% if user.is_staff %}<a class="admin-link" href="/admin/">Әкімшілік</a>{% endif %}
+          <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn-secondary btn-sm">Шығу</button></form>
+        {% else %}
+          <a href="{% url 'login' %}">Кіру</a><a class="btn btn-sm" href="{% url 'signup' %}">Тіркелу</a>
+        {% endif %}
+      </div>
     </div>
   </header>
 

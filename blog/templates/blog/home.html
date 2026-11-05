@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Басты бет{% endblock %}
 {% block content %}
+{% if perms.blog.book_appointment %}<p><a class="btn" href="{% url 'appointment_book' %}">Қабылдауға жазылу</a></p>{% endif %}
 <div class="page-head">
   <div><h1>Емхана</h1><p class="sub">Қабылдаулар, науқастар және дәрігерлер бір жерде</p></div>
-  <div class="actions"><a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a></div>
+  <div class="actions">{% if perms.blog.add_appointment %}<a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a>{% endif %}</div>
 </div>
 
 <div class="stats">

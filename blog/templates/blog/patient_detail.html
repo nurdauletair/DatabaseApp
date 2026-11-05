@@ -4,8 +4,8 @@
 <div class="page-head">
   <div><h1>{{ patient.full_name }}</h1><p class="sub">Туған күні: {{ patient.birth_date|date:"d.m.Y" }}</p></div>
   <div class="actions">
-    <a class="btn" href="{% url 'patient_update' patient.pk %}">Өңдеу</a>
-    <a class="btn btn-danger" href="{% url 'patient_delete' patient.pk %}">Жою</a>
+    {% if perms.blog.change_patient %}<a class="btn" href="{% url 'patient_update' patient.pk %}">Өңдеу</a>{% endif %}
+    {% if perms.blog.delete_patient %}<a class="btn btn-danger" href="{% url 'patient_delete' patient.pk %}">Жою</a>{% endif %}
     <a class="btn btn-secondary" href="{% url 'patient_list' %}">← Тізімге</a>
   </div>
 </div>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Кіру{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Емханаға кіру</h1><p class="sub">Қабылдауларыңызға қол жеткізу үшін кіріңіз</p></div></div>
+<form method="post" class="card form-card">
+  {% csrf_token %}
+  {% include "blog/_form_fields.html" %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <div class="form-actions"><button>Кіру</button><a href="{% url 'signup' %}">Тіркелу</a></div>
+</form>
+{% endblock %}

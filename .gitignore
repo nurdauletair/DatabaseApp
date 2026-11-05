@@ -8,3 +8,6 @@ db.sqlite3
 .idea/
 .vscode/
 staticfiles/
+
+# Local database and settings backups
+.local-backups/

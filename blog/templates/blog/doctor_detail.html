@@ -4,8 +4,8 @@
 <div class="page-head">
   <div><h1>{{ doctor.full_name }}</h1><p class="sub">{{ doctor.get_specialty_display }}{% if doctor.phone %} · {{ doctor.phone }}{% endif %}</p></div>
   <div class="actions">
-    <a class="btn" href="{% url 'doctor_update' doctor.pk %}">Өңдеу</a>
-    <a class="btn btn-danger" href="{% url 'doctor_delete' doctor.pk %}">Жою</a>
+    {% if perms.blog.change_doctor %}<a class="btn" href="{% url 'doctor_update' doctor.pk %}">Өңдеу</a>{% endif %}
+    {% if perms.blog.delete_doctor %}<a class="btn btn-danger" href="{% url 'doctor_delete' doctor.pk %}">Жою</a>{% endif %}
     <a class="btn btn-secondary" href="{% url 'doctor_list' %}">← Тізімге</a>
   </div>
 </div>

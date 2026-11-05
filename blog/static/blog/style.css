@@ -232,6 +232,21 @@ input:focus, select:focus, textarea:focus {
 .pagination a:hover { background: var(--bg); text-decoration: none; }
 
 .site-footer { text-align: center; color: var(--muted); font-size: 13px; padding: 0 0 28px; }
+.account-nav { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.account-nav form { margin: 0; }
+input[type="password"], input[type="email"], input[type="tel"] {
+  font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid #cfd8dc;
+  border-radius: 9px; background: #fff; color: var(--text); width: 100%; max-width: 460px;
+}
+.helptext { display: block; color: var(--muted); font-size: 13px; margin-top: 5px; }
+.session-key { overflow-wrap: anywhere; }
+.badge-confirmed { background: var(--brand-soft); color: var(--brand-dark); }
+@media (max-width: 900px) {
+  .site-header .inner { height: auto; min-height: 60px; flex-wrap: wrap; gap: 10px; padding: 12px 20px; }
+  .site-nav { order: 3; flex-basis: 100%; min-width: 0; overflow-x: auto; }
+  .site-nav a { white-space: nowrap; }
+  .account-nav { margin-left: auto; }
+}
 
 @media (max-width: 640px) {
   .site-header .inner { gap: 12px; }

@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Қабылдаулар{% endblock %}
 {% block content %}
+{% if perms.blog.book_appointment %}<p><a class="btn" href="{% url 'appointment_book' %}">Қабылдауға жазылу</a></p>{% endif %}
 <div class="page-head">
   <div><h1>Қабылдаулар</h1><p class="sub">Науқастардың дәрігерге жазылуы</p></div>
-  <div class="actions"><a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a></div>
+  <div class="actions">{% if perms.blog.add_appointment %}<a class="btn" href="{% url 'appointment_create' %}">+ Жаңа қабылдау</a>{% endif %}</div>
 </div>
 
 {% if stats.total %}
@@ -36,8 +37,8 @@
         <td class="num">{{ a.price|floatformat:0 }} ₸</td>
         <td><span class="badge badge-{{ a.status }}">{{ a.get_status_display }}</span></td>
         <td class="row-actions">
-          <a href="{% url 'appointment_update' a.pk %}">Өңдеу</a> ·
-          <a class="link-danger" href="{% url 'appointment_delete' a.pk %}">Жою</a>
+          {% if perms.blog.change_appointment %}<a href="{% url 'appointment_update' a.pk %}">Өңдеу</a>{% endif %}
+          {% if perms.blog.delete_appointment %}<a class="link-danger" href="{% url 'appointment_delete' a.pk %}">Жою</a>{% endif %}
         </td>
       </tr>
     {% empty %}

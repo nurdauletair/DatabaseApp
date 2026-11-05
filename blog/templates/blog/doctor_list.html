@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-head">
   <div><h1>Дәрігерлер</h1><p class="sub">Мамандар және олардың жұмыс көрсеткіштері</p></div>
-  <div class="actions"><a class="btn" href="{% url 'doctor_create' %}">+ Жаңа дәрігер</a></div>
+  <div class="actions">{% if perms.blog.add_doctor %}<a class="btn" href="{% url 'doctor_create' %}">+ Жаңа дәрігер</a>{% endif %}</div>
 </div>
 
 <form method="get" class="filters">
@@ -30,8 +30,8 @@
         <td class="num">{{ d.n_appointments }}</td>
         <td class="num">{% if d.avg_price %}{{ d.avg_price|floatformat:0 }} ₸{% else %}—{% endif %}</td>
         <td class="row-actions">
-          <a href="{% url 'doctor_update' d.pk %}">Өңдеу</a> ·
-          <a class="link-danger" href="{% url 'doctor_delete' d.pk %}">Жою</a>
+          {% if perms.blog.change_doctor %}<a href="{% url 'doctor_update' d.pk %}">Өңдеу</a>{% endif %}
+          {% if perms.blog.delete_doctor %}<a class="link-danger" href="{% url 'doctor_delete' d.pk %}">Жою</a>{% endif %}
         </td>
       </tr>
     {% empty %}

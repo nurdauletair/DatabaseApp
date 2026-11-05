@@ -18,6 +18,22 @@ def clean_two_words(value):
 
 
 class AppointmentForm(forms.ModelForm):
+    def __init__(self, *args, user=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if user is not None:
+            from .access import manages_clinic, visible_patients
+            if not manages_clinic(user):
+                if "doctor" in self.fields:
+                    self.fields["doctor"].queryset = Doctor.objects.filter(user=user)
+                if "patient" in self.fields:
+                    self.fields["patient"].queryset = visible_patients(user, Patient.objects.all())
+                for field in ("doctor", "patient", "price", "date"):
+                    if field in self.fields:
+                        self.fields[field].disabled = True
+                if self.instance.status != Appointment.Status.CONFIRMED:
+                    self.fields["status"].choices = [
+                        choice for choice in Appointment.Status.choices
+                        if choice[0] != Appointment.Status.CONFIRMED]
     date = forms.DateTimeField(
         label="Қабылдау уақыты",
         input_formats=DT_FORMATS,
@@ -117,3 +133,20 @@ class AppointmentFilterForm(forms.Form):
         required=False, label="Дәрігер", queryset=Doctor.objects.all(),
         empty_label="Барлық дәрігер")
     sort = forms.ChoiceField(required=False, label="Сұрыптау", choices=SORT_CHOICES)
+
+
+class BookingForm(forms.ModelForm):
+    """A patient's booking cannot set diagnoses, price, patient, or status."""
+    date = forms.DateTimeField(
+        label="Қабылдау уақыты", input_formats=DT_FORMATS,
+        widget=forms.DateTimeInput(attrs={"type": "datetime-local"}, format=DT_FORMATS[0]))
+
+    class Meta:
+        model = Appointment
+        fields = ["doctor", "date"]
+
+    def clean_date(self):
+        date = self.cleaned_data["date"]
+        if date <= timezone.now() or date > timezone.now() + datetime.timedelta(days=365):
+            raise forms.ValidationError("Келесі бір жыл ішіндегі болашақ уақытты таңдаңыз.")
+        return date

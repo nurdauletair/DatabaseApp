@@ -19,7 +19,7 @@ class ApiTests(TestCase):
                 doctor=cls.doctor, patient=cls.patient, price=1000 * (i + 1),
                 date=timezone.now() - timedelta(days=i))
             a.diagnoses.add(cls.flu)
-        cls.user = get_user_model().objects.create_user("tester", password="pass12345")
+        cls.user = get_user_model().objects.create_superuser("tester", password="pass12345")
 
     def setUp(self):
         self.anon = APIClient()
@@ -34,21 +34,21 @@ class ApiTests(TestCase):
         data.update(extra)
         return data
 
-    # --- оқу: бәріне ашық
-    def test_list_is_public_and_paginated(self):
-        r = self.anon.get("/api/appointments/")
+    # --- оқу: тек рұқсаты бар пайдаланушыға
+    def test_authenticated_list_is_paginated(self):
+        r = self.auth.get("/api/appointments/")
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.data["count"], 5)
         self.assertIn("results", r.data)
 
     def test_detail_has_nested_doctor_and_diagnosis_names(self):
         a = Appointment.objects.first()
-        r = self.anon.get(f"/api/appointments/{a.pk}/")
+        r = self.auth.get(f"/api/appointments/{a.pk}/")
         self.assertEqual(r.data["doctor"]["full_name"], "Асқар Нұрлан")
         self.assertEqual(r.data["diagnoses"], ["Грипп"])
 
     def test_missing_object_404(self):
-        self.assertEqual(self.anon.get("/api/appointments/9999/").status_code, 404)
+        self.assertEqual(self.auth.get("/api/appointments/9999/").status_code, 404)
 
     # --- рұқсаттар
     def test_anonymous_cannot_write(self):
@@ -111,23 +111,23 @@ class ApiTests(TestCase):
 
     # --- сүзу, іздеу, сұрыптау, агрегаттау
     def test_filter_search_ordering(self):
-        r = self.anon.get("/api/appointments/", {"ordering": "-price"})
+        r = self.auth.get("/api/appointments/", {"ordering": "-price"})
         self.assertEqual(r.data["results"][0]["price"], "5000.00")
-        r = self.anon.get("/api/appointments/", {"search": "Серік"})
+        r = self.auth.get("/api/appointments/", {"search": "Серік"})
         self.assertEqual(r.data["count"], 5)
-        r = self.anon.get("/api/appointments/", {"status": "done"})
+        r = self.auth.get("/api/appointments/", {"status": "done"})
         self.assertEqual(r.data["count"], 0)
 
     def test_stats_endpoint(self):
-        r = self.anon.get("/api/appointments/stats/")
+        r = self.auth.get("/api/appointments/stats/")
         self.assertEqual(r.data["total"], 5)
         self.assertEqual(r.data["by_status"], {"planned": 5})
 
     # --- N+1 жоқ: сұраныстар саны деректер санына тәуелсіз
     def test_appointment_list_uses_3_queries(self):
         with self.assertNumQueries(3):      # COUNT + қабылдаулар(JOIN) + диагноздар
-            self.anon.get("/api/appointments/")
+            self.auth.get("/api/appointments/")
 
     def test_patient_list_uses_3_queries(self):
         with self.assertNumQueries(3):      # COUNT + науқастар(annotate) + дәрігерлер
-            self.anon.get("/api/patients/")
+            self.auth.get("/api/patients/")

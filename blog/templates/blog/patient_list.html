@@ -3,7 +3,7 @@
 {% block content %}
 <div class="page-head">
   <div><h1>Науқастар</h1><p class="sub">Тіркелген науқастар және олардың қабылдаулары</p></div>
-  <div class="actions"><a class="btn" href="{% url 'patient_create' %}">+ Жаңа науқас</a></div>
+  <div class="actions">{% if perms.blog.add_patient %}<a class="btn" href="{% url 'patient_create' %}">+ Жаңа науқас</a>{% endif %}</div>
 </div>
 
 <form method="get" class="filters">
@@ -23,8 +23,8 @@
         <td>{% for d in p.doctors.all %}<span class="tag">{{ d }}</span>{% endfor %}</td>
         <td class="num">{{ p.n_appointments }}</td>
         <td class="row-actions">
-          <a href="{% url 'patient_update' p.pk %}">Өңдеу</a> ·
-          <a class="link-danger" href="{% url 'patient_delete' p.pk %}">Жою</a>
+          {% if perms.blog.change_patient %}<a href="{% url 'patient_update' p.pk %}">Өңдеу</a>{% endif %}
+          {% if perms.blog.delete_patient %}<a class="link-danger" href="{% url 'patient_delete' p.pk %}">Жою</a>{% endif %}
         </td>
       </tr>
     {% empty %}
