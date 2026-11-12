@@ -5,7 +5,7 @@ from django.utils import timezone
 from .access import manages_clinic, visible_appointments, visible_patients
 from .forms import AppointmentForm
 
-from .models import Appointment, Diagnosis, Doctor, Patient
+from .models import Appointment, AppointmentNote, Diagnosis, Doctor, Patient
 
 
 @admin.register(Doctor)
@@ -90,3 +90,19 @@ class AppointmentAdmin(admin.ModelAdmin):
 admin.site.site_header = "Емхана әкімшілігі"
 admin.site.site_title = "Емхана"
 admin.site.index_title = "Басқару панелі"
+
+
+@admin.register(AppointmentNote)
+class AppointmentNoteAdmin(admin.ModelAdmin):
+    list_display = ["id", "appointment", "text"]
+    list_select_related = ["appointment__doctor", "appointment__patient"]
+    search_fields = ["text"]
+
+    def get_queryset(self, request):
+        ids = visible_appointments(request.user, Appointment.objects.all()).values("pk")
+        return super().get_queryset(request).filter(appointment_id__in=ids)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "appointment":
+            kwargs["queryset"] = visible_appointments(request.user, Appointment.objects.all()).select_related("doctor", "patient")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)

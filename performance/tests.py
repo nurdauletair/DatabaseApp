@@ -54,3 +54,54 @@ class PerformanceTests(TestCase):
         self.client.force_login(self.admin)
         with override_settings(PERFORMANCE_LAB=False):
             self.assertEqual(self.client.get("/lab11/slow/").status_code, 404)
+
+    def test_cached_results_are_isolated_and_warm_hit_has_no_data_sql(self):
+        from django.test import RequestFactory
+        from django.contrib.sessions.backends.db import SessionStore
+        from django.core.cache import cache
+        from .views import cached
+        cache.clear()
+        request = RequestFactory().get("/lab11/cached/")
+        request.user, request.session = self.admin, SessionStore()
+        cached(request)
+        with self.assertNumQueries(0):
+            response = cached(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("private", response["Cache-Control"])
+        self.client.force_login(self.patient_user)
+        response = self.client.get("/lab11/cached/")
+        self.assertContains(response, "Оқу Науқас")
+        self.assertNotContains(response, "Бөгде Науқас")
+        self.client.force_login(self.other_user)
+        response = self.client.get("/lab11/cached/")
+        self.assertContains(response, "Бөгде Науқас")
+        self.assertNotContains(response, "Оқу Науқас")
+
+    def test_stats_and_page_revision_refresh_after_committed_changes(self):
+        from django.core.cache import cache
+        from .cache import clinic_stats, revision
+        cache.clear()
+        before = clinic_stats(self.admin)
+        old_revision = revision()
+        with self.captureOnCommitCallbacks(execute=True):
+            note = AppointmentNote.objects.create(appointment=Appointment.objects.first(), text="New note")
+        self.assertNotEqual(revision(), old_revision)
+        self.assertEqual(clinic_stats(self.admin)["notes"], before["notes"]+1)
+        with self.captureOnCommitCallbacks(execute=True):
+            note.delete()
+        self.assertEqual(clinic_stats(self.admin)["notes"], before["notes"])
+
+    def test_diagnosis_m2m_invalidates_cache(self):
+        from .cache import revision
+        before = revision()
+        with self.captureOnCommitCallbacks(execute=True):
+            Appointment.objects.first().diagnoses.clear()
+        self.assertNotEqual(revision(), before)
+
+    def test_permission_revocation_blocks_a_previously_cached_page(self):
+        from django.core.cache import cache
+        cache.clear()
+        self.client.force_login(self.patient_user)
+        self.assertEqual(self.client.get("/lab11/cached/").status_code, 200)
+        self.patient_user.groups.clear()
+        self.assertEqual(self.client.get("/lab11/cached/").status_code, 403)

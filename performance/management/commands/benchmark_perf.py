@@ -56,6 +56,7 @@ class Command(BaseCommand):
             cache.clear()
             if options["cache_mode"] == "hit":
                 function()
+                function()  # settle the CSRF cookie before the warm-cache samples
             results = []
             for _ in range(5):
                 if options["cache_mode"] == "miss":

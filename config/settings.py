@@ -207,3 +207,6 @@ LOGGING = {
         "django.db.backends": {"handlers": ["console"], "level": "DEBUG" if DEBUG and os.environ.get("LAB11_SQL_LOG") == "1" else "WARNING", "propagate": False},
     },
 }
+
+CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+                      "LOCATION": "clinic-lab11", "TIMEOUT": 300}}

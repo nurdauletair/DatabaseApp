@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}11-ЗС · Өнімділік{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>11-ЗС · Емхана өнімділігі</h1><p class="sub">Бір дерек жиыны, үш жүктеу тәсілі</p></div></div>
+<div class="card"><h2>Қабылдаулар тізімін салыстыру</h2><p>Соңғы 50 жоспарланған оқу қабылдауы көрсетіледі. Әр пайдаланушы өзіне рұқсат етілген деректерді көреді.</p>
+<div class="actions"><a class="btn btn-secondary" href="{% url 'performance:slow' %}">1. Бастапқы нұсқа</a><a class="btn" href="{% url 'performance:optimized' %}">2. Оңтайландырылған</a><a class="btn" href="{% url 'performance:cached' %}">3. Кэшпен</a></div></div>
+<div class="card"><h2>Нәтижені көру</h2><p>SQL сұраныстарын оң жақтағы Debug Toolbar панелінен қараңыз. Кэш бетін қайта ашып, SQL санының азайғанын салыстырыңыз.</p><p>Кіру мен рұқсат тексеруінің SQL сұраныстары беттің деректер сұраныстарынан бөлек есептеледі.</p></div>
+{% endblock %}
