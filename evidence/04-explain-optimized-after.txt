@@ -1,0 +1,44 @@
+Limit  (cost=425.92..426.05 rows=50 width=152) (actual time=0.239..0.241 rows=50 loops=1)
+  Buffers: shared hit=659
+  ->  Sort  (cost=425.92..426.30 rows=149 width=152) (actual time=0.238..0.240 rows=50 loops=1)
+        Sort Key: blog_appointment.date DESC
+        Sort Method: quicksort  Memory: 37kB
+        Buffers: shared hit=659
+        ->  HashAggregate  (cost=419.49..420.98 rows=149 width=152) (actual time=0.222..0.228 rows=50 loops=1)
+              Group Key: blog_appointment.id, blog_doctor.id, blog_patient.id
+              Batches: 1  Memory Usage: 48kB
+              Buffers: shared hit=659
+              ->  Nested Loop Left Join  (cost=18.43..418.00 rows=149 width=152) (actual time=0.032..0.202 rows=158 loops=1)
+                    Buffers: shared hit=659
+                    ->  Nested Loop  (cost=18.14..392.39 rows=50 width=144) (actual time=0.029..0.110 rows=50 loops=1)
+                          Buffers: shared hit=406
+                          ->  Nested Loop  (cost=17.86..377.39 rows=50 width=100) (actual time=0.027..0.072 rows=50 loops=1)
+                                Buffers: shared hit=256
+                                ->  Nested Loop  (cost=17.72..369.21 rows=50 width=47) (actual time=0.025..0.050 rows=50 loops=1)
+                                      Buffers: shared hit=156
+                                      ->  HashAggregate  (cost=17.43..17.93 rows=50 width=8) (actual time=0.022..0.024 rows=50 loops=1)
+                                            Group Key: "U0".id
+                                            Batches: 1  Memory Usage: 24kB
+                                            Buffers: shared hit=6
+                                            ->  Limit  (cost=0.29..16.80 rows=50 width=16) (actual time=0.010..0.017 rows=50 loops=1)
+                                                  Buffers: shared hit=6
+                                                  ->  Index Scan using appt_status_date_idx on blog_appointment "U0"  (cost=0.29..3258.14 rows=9863 width=16) (actual time=0.010..0.015 rows=50 loops=1)
+                                                        Index Cond: ((status)::text = 'planned'::text)
+                                                        Filter: is_training
+                                                        Buffers: shared hit=6
+                                      ->  Index Scan using blog_appointment_pkey on blog_appointment  (cost=0.29..7.02 rows=1 width=47) (actual time=0.000..0.000 rows=1 loops=50)
+                                            Index Cond: (id = "U0".id)
+                                            Buffers: shared hit=150
+                                ->  Index Scan using blog_doctor_pkey on blog_doctor  (cost=0.14..0.16 rows=1 width=53) (actual time=0.000..0.000 rows=1 loops=50)
+                                      Index Cond: (id = blog_appointment.doctor_id)
+                                      Buffers: shared hit=100
+                          ->  Index Scan using blog_patient_pkey on blog_patient  (cost=0.28..0.30 rows=1 width=44) (actual time=0.001..0.001 rows=1 loops=50)
+                                Index Cond: (id = blog_appointment.patient_id)
+                                Buffers: shared hit=150
+                    ->  Index Scan using blog_appointmentnote_appointment_id_7c59a7fa on blog_appointmentnote  (cost=0.29..0.48 rows=3 width=16) (actual time=0.001..0.002 rows=3 loops=50)
+                          Index Cond: (appointment_id = blog_appointment.id)
+                          Buffers: shared hit=253
+Planning:
+  Buffers: shared hit=43
+Planning Time: 0.580 ms
+Execution Time: 0.270 ms

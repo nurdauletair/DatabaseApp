@@ -1,0 +1,10 @@
+Limit  (cost=0.29..16.80 rows=50 width=290) (actual time=0.015..0.024 rows=50 loops=1)
+  Buffers: shared hit=4 read=2
+  ->  Index Scan using appt_status_date_idx on blog_appointment  (cost=0.29..3258.14 rows=9863 width=290) (actual time=0.014..0.022 rows=50 loops=1)
+        Index Cond: ((status)::text = 'planned'::text)
+        Filter: is_training
+        Buffers: shared hit=4 read=2
+Planning:
+  Buffers: shared hit=29 read=1
+Planning Time: 0.065 ms
+Execution Time: 0.029 ms

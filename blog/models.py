@@ -97,6 +97,7 @@ class Appointment(models.Model):
         ordering = ["-date"]
         verbose_name = "Қабылдау"
         verbose_name_plural = "Қабылдаулар"
+        indexes = [models.Index(fields=["status", "-date"], name="appt_status_date_idx")]
         permissions = [
             ("book_appointment", "Өзіне қабылдауға жазылу"),
             ("confirm_appointment", "Қабылдауды растау"),

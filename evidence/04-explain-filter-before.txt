@@ -1,0 +1,14 @@
+Limit  (cost=1413.89..1414.02 rows=50 width=290) (actual time=11.590..11.613 rows=50 loops=1)
+  Buffers: shared hit=838
+  ->  Sort  (cost=1413.89..1438.55 rows=9863 width=290) (actual time=11.588..11.607 rows=50 loops=1)
+        Sort Key: date DESC
+        Sort Method: top-N heapsort  Memory: 50kB
+        Buffers: shared hit=838
+        ->  Seq Scan on blog_appointment  (cost=0.00..1086.25 rows=9863 width=290) (actual time=0.045..8.647 rows=9876 loops=1)
+              Filter: (is_training AND ((status)::text = 'planned'::text))
+              Rows Removed by Filter: 10224
+              Buffers: shared hit=835
+Planning:
+  Buffers: shared hit=90
+Planning Time: 0.753 ms
+Execution Time: 11.645 ms
