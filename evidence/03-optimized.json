@@ -1,0 +1,86 @@
+{
+  "stage": "n-plus-one-fixed",
+  "path": "/lab11/optimized/",
+  "cache_mode": "none",
+  "measured_at": "2026-11-12T14:20:10.016071+05:00",
+  "backend": "postgresql",
+  "repetitions": 5,
+  "business": {
+    "samples": [
+      {
+        "sql_count": 2,
+        "sql_ms": 25.5131670000992,
+        "page_ms": 32.38095799997609,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 2,
+        "sql_ms": 10.21858300009626,
+        "page_ms": 14.782000000195694,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 2,
+        "sql_ms": 8.11620700005733,
+        "page_ms": 12.79408299978968,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 2,
+        "sql_ms": 5.599958000402694,
+        "page_ms": 10.155166000004101,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 2,
+        "sql_ms": 6.805791999795474,
+        "page_ms": 11.380124999959662,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      }
+    ],
+    "median": {
+      "sql_count": 2,
+      "sql_ms": 8.11620700005733,
+      "page_ms": 12.79408299978968
+    }
+  },
+  "http": {
+    "samples": [
+      {
+        "sql_count": 4,
+        "sql_ms": 7.897998999851552,
+        "page_ms": 13.990750000175467,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 4,
+        "sql_ms": 8.941040999616234,
+        "page_ms": 14.70045799987929,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 4,
+        "sql_ms": 7.9399159999411495,
+        "page_ms": 13.519833000373183,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 4,
+        "sql_ms": 7.596042999011843,
+        "page_ms": 12.977750000118249,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      },
+      {
+        "sql_count": 4,
+        "sql_ms": 7.583748999877571,
+        "page_ms": 13.136125000073662,
+        "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
+      }
+    ],
+    "median": {
+      "sql_count": 4,
+      "sql_ms": 7.897998999851552,
+      "page_ms": 13.519833000373183
+    }
+  }
+}

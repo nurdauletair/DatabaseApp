@@ -4,7 +4,7 @@ from django.http import Http404
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 
-from .queries import slow_rows
+from .queries import slow_rows, optimized_rows
 
 
 def lab_access(view):
@@ -18,3 +18,8 @@ def lab_access(view):
 @lab_access
 def slow(request):
     return render(request, "performance/list.html", {"appointments": slow_rows(request.user), "stage": "Бастапқы нұсқа", "slow": True})
+
+
+@lab_access
+def optimized(request):
+    return render(request, "performance/list.html", {"appointments": optimized_rows(request.user), "stage": "N+1 түзетілген"})
