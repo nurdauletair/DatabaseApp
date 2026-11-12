@@ -1,0 +1,151 @@
+Creating test database for alias 'default' ('test_clinic_db')...
+Found 94 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: debug_toolbar, messages, performance, rest_framework, staticfiles
+  Apply all migrations: accounts, admin, auth, authtoken, blog, contenttypes, sessions, token_blacklist
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying accounts.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying authtoken.0001_initial... OK
+  Applying authtoken.0002_auto_20160226_1747... OK
+  Applying authtoken.0003_tokenproxy... OK
+  Applying authtoken.0004_alter_tokenproxy_options... OK
+  Applying blog.0001_initial... OK
+  Applying blog.0002_doctor_phone... OK
+  Applying blog.0003_diagnosis_appointment_duration_appointment_price_and_more... OK
+  Applying blog.0004_alter_appointment_options_doctor_user_patient_user_and_more... OK
+  Applying blog.0005_appointment_reason_appointmentnote... OK
+  Applying blog.0006_appointment_status_date_idx... OK
+  Applying sessions.0001_initial... OK
+  Applying token_blacklist.0001_initial... OK
+  Applying token_blacklist.0002_outstandingtoken_jti_hex... OK
+  Applying token_blacklist.0003_auto_20171017_2007... OK
+  Applying token_blacklist.0004_auto_20171017_2013... OK
+  Applying token_blacklist.0005_remove_outstandingtoken_jti... OK
+  Applying token_blacklist.0006_auto_20171017_2113... OK
+  Applying token_blacklist.0007_auto_20171017_2214... OK
+  Applying token_blacklist.0008_migrate_to_bigautofield... OK
+  Applying token_blacklist.0010_fix_migrate_to_bigautofield... OK
+  Applying token_blacklist.0011_linearizes_history... OK
+  Applying token_blacklist.0012_alter_outstandingtoken_user... OK
+  Applying token_blacklist.0013_alter_blacklistedtoken_options_and_more...test_admin_doctor_cannot_confirm_via_post_or_bulk_action (accounts.tests.ClinicAuthTests.test_admin_doctor_cannot_confirm_via_post_or_bulk_action) ... ok
+test_admin_is_scoped_and_registrar_cannot_manage_users (accounts.tests.ClinicAuthTests.test_admin_is_scoped_and_registrar_cannot_manage_users) ... ok
+test_anonymous_html_redirect_and_api_401 (accounts.tests.ClinicAuthTests.test_anonymous_html_redirect_and_api_401) ... ok
+test_booking_rejects_past_date (accounts.tests.ClinicAuthTests.test_booking_rejects_past_date) ... ok
+test_cannot_blacklist_another_users_refresh (accounts.tests.ClinicAuthTests.test_cannot_blacklist_another_users_refresh) ... ok
+test_csrf_protects_state_changes (accounts.tests.ClinicAuthTests.test_csrf_protects_state_changes) ... ok
+test_doctor_cannot_reassign_reprice_reschedule_or_confirm (accounts.tests.ClinicAuthTests.test_doctor_cannot_reassign_reprice_reschedule_or_confirm) ... ok
+test_doctor_edits_own_but_not_foreign (accounts.tests.ClinicAuthTests.test_doctor_edits_own_but_not_foreign) ... ok
+test_doctor_scoped_patient_detail_and_counts (accounts.tests.ClinicAuthTests.test_doctor_scoped_patient_detail_and_counts) ... ok
+test_drf_token_authentication_and_revocation (accounts.tests.ClinicAuthTests.test_drf_token_authentication_and_revocation) ... ok
+test_inactive_user_cannot_get_tokens (accounts.tests.ClinicAuthTests.test_inactive_user_cannot_get_tokens) ... ok
+test_jwt_access_refresh_blacklist_and_invalid_token (accounts.tests.ClinicAuthTests.test_jwt_access_refresh_blacklist_and_invalid_token) ... ok
+test_jwt_refresh_rotates_and_blacklists_previous (accounts.tests.ClinicAuthTests.test_jwt_refresh_rotates_and_blacklists_previous) ... ok
+test_login_creates_session_and_post_logout_flushes_it (accounts.tests.ClinicAuthTests.test_login_creates_session_and_post_logout_flushes_it) ... ok
+test_logout_all_preserves_other_users_sessions (accounts.tests.ClinicAuthTests.test_logout_all_preserves_other_users_sessions) ... ok
+test_only_registrar_confirms_and_requires_post (accounts.tests.ClinicAuthTests.test_only_registrar_confirms_and_requires_post) ... ok
+test_password_change_invalidates_old_browser_session (accounts.tests.ClinicAuthTests.test_password_change_invalidates_old_browser_session) ... ok
+test_patient_books_only_for_self_and_cannot_set_clinical_fields (accounts.tests.ClinicAuthTests.test_patient_books_only_for_self_and_cannot_set_clinical_fields) ... ok
+test_patient_cannot_create_edit_or_delete_generic_records (accounts.tests.ClinicAuthTests.test_patient_cannot_create_edit_or_delete_generic_records) ... ok
+test_patient_list_and_stats_only_own (accounts.tests.ClinicAuthTests.test_patient_list_and_stats_only_own) ... ok
+test_profile_counter_and_cookie_settings (accounts.tests.ClinicAuthTests.test_profile_counter_and_cookie_settings) ... ok
+test_registrar_can_create_and_see_all (accounts.tests.ClinicAuthTests.test_registrar_can_create_and_see_all) ... ok
+test_setup_roles_is_repeatable_and_grants_no_user_management (accounts.tests.ClinicAuthTests.test_setup_roles_is_repeatable_and_grants_no_user_management) ... ok
+test_signup_creates_patient_and_ignores_privilege_fields (accounts.tests.ClinicAuthTests.test_signup_creates_patient_and_ignores_privilege_fields) ... ok
+test_template_hides_unauthorized_actions (accounts.tests.ClinicAuthTests.test_template_hides_unauthorized_actions) ... ok
+test_weak_password_rejected (accounts.tests.ClinicAuthTests.test_weak_password_rejected) ... ok
+test_anonymous_cannot_delete (blog.test_api.ApiTests.test_anonymous_cannot_delete) ... ok
+test_anonymous_cannot_write (blog.test_api.ApiTests.test_anonymous_cannot_write) ... ok
+test_appointment_list_uses_3_queries (blog.test_api.ApiTests.test_appointment_list_uses_3_queries) ... ok
+test_authenticated_list_is_paginated (blog.test_api.ApiTests.test_authenticated_list_is_paginated) ... ok
+test_create_201 (blog.test_api.ApiTests.test_create_201) ... ok
+test_create_invalid_400_and_nothing_saved (blog.test_api.ApiTests.test_create_invalid_400_and_nothing_saved) ... ok
+test_delete_204 (blog.test_api.ApiTests.test_delete_204) ... ok
+test_detail_has_nested_doctor_and_diagnosis_names (blog.test_api.ApiTests.test_detail_has_nested_doctor_and_diagnosis_names) ... ok
+test_doctor_with_appointments_delete_returns_409 (blog.test_api.ApiTests.test_doctor_with_appointments_delete_returns_409) ... ok
+test_filter_search_ordering (blog.test_api.ApiTests.test_filter_search_ordering) ... ok
+test_future_done_rejected (blog.test_api.ApiTests.test_future_done_rejected) ... ok
+test_missing_object_404 (blog.test_api.ApiTests.test_missing_object_404) ... ok
+test_patch_200 (blog.test_api.ApiTests.test_patch_200) ... ok
+test_patient_create_one_word_name_rejected (blog.test_api.ApiTests.test_patient_create_one_word_name_rejected) ... ok
+test_patient_create_with_doctor_ids (blog.test_api.ApiTests.test_patient_create_with_doctor_ids) ... ok
+test_patient_list_uses_3_queries (blog.test_api.ApiTests.test_patient_list_uses_3_queries) ... ok
+test_stats_endpoint (blog.test_api.ApiTests.test_stats_endpoint) ... ok
+test_create_invalid_shows_errors_and_saves_nothing (blog.test_crud.AppointmentCrudTests.test_create_invalid_shows_errors_and_saves_nothing) ... ok
+test_create_valid_redirects (blog.test_crud.AppointmentCrudTests.test_create_valid_redirects) ... ok
+test_delete_get_does_not_delete (blog.test_crud.AppointmentCrudTests.test_delete_get_does_not_delete) ... ok
+test_delete_post_deletes (blog.test_crud.AppointmentCrudTests.test_delete_post_deletes) ... ok
+test_future_done_is_rejected (blog.test_crud.AppointmentCrudTests.test_future_done_is_rejected) ... ok
+test_list_ok (blog.test_crud.AppointmentCrudTests.test_list_ok) ... ok
+test_missing_appointment_404 (blog.test_crud.AppointmentCrudTests.test_missing_appointment_404) ... ok
+test_update_redirects_to_detail (blog.test_crud.AppointmentCrudTests.test_update_redirects_to_detail) ... ok
+test_create_future_birth_date_rejected (blog.test_crud.PatientCrudTests.test_create_future_birth_date_rejected) ... ok
+test_create_one_word_name_rejected (blog.test_crud.PatientCrudTests.test_create_one_word_name_rejected) ... ok
+test_create_valid_redirects (blog.test_crud.PatientCrudTests.test_create_valid_redirects) ... ok
+test_delete_page_warns_about_cascade (blog.test_crud.PatientCrudTests.test_delete_page_warns_about_cascade) ... ok
+test_delete_post_cascades (blog.test_crud.PatientCrudTests.test_delete_post_cascades) ... ok
+test_list_shows_appointment_count (blog.test_crud.PatientCrudTests.test_list_shows_appointment_count) ... ok
+test_update (blog.test_crud.PatientCrudTests.test_update) ... ok
+test_appointments_ordered_newest_first (blog.test_models.ModelTests.test_appointments_ordered_newest_first) ... ok
+test_choices_display (blog.test_models.ModelTests.test_choices_display) ... ok
+test_defaults (blog.test_models.ModelTests.test_defaults) ... ok
+test_deleting_patient_cascades_to_appointments (blog.test_models.ModelTests.test_deleting_patient_cascades_to_appointments) ... ok
+test_diagnosis_name_is_unique (blog.test_models.ModelTests.test_diagnosis_name_is_unique) ... ok
+test_doctor_with_appointments_is_protected (blog.test_models.ModelTests.test_doctor_with_appointments_is_protected) ... ok
+test_many_to_many_diagnoses_and_related_names (blog.test_models.ModelTests.test_many_to_many_diagnoses_and_related_names) ... ok
+test_str_methods (blog.test_models.ModelTests.test_str_methods) ... ok
+test_aggregate_stats (blog.test_web.AppointmentListFilterTests.test_aggregate_stats) ... ok
+test_filter_by_status_and_doctor (blog.test_web.AppointmentListFilterTests.test_filter_by_status_and_doctor) ... ok
+test_invalid_filter_value_does_not_crash (blog.test_web.AppointmentListFilterTests.test_invalid_filter_value_does_not_crash) ... ok
+test_list_query_count_is_constant (blog.test_web.AppointmentListFilterTests.test_list_query_count_is_constant) ... ok
+test_pagination_15_per_page (blog.test_web.AppointmentListFilterTests.test_pagination_15_per_page) ... ok
+test_search_by_name (blog.test_web.AppointmentListFilterTests.test_search_by_name) ... ok
+test_create_bad_phone_rejected (blog.test_web.DoctorCrudTests.test_create_bad_phone_rejected) ... ok
+test_create_valid (blog.test_web.DoctorCrudTests.test_create_valid) ... ok
+test_delete_blocked_when_doctor_has_appointments (blog.test_web.DoctorCrudTests.test_delete_blocked_when_doctor_has_appointments) ... ok
+test_delete_without_appointments (blog.test_web.DoctorCrudTests.test_delete_without_appointments) ... ok
+test_list_and_detail (blog.test_web.DoctorCrudTests.test_list_and_detail) ... ok
+test_update (blog.test_web.DoctorCrudTests.test_update) ... ok
+test_home_shows_totals (blog.test_web.HomeTests.test_home_shows_totals) ... ok
+test_detail_shows_appointments (blog.test_web.PatientDetailTests.test_detail_shows_appointments) ... ok
+test_both (blog.tests.AppointmentQueryTest.test_both) ... ok
+test_n_plus_one (blog.tests.AppointmentQueryTest.test_n_plus_one) ... ok
+test_prefetch_related (blog.tests.AppointmentQueryTest.test_prefetch_related) ... ok
+test_select_related (blog.tests.AppointmentQueryTest.test_select_related) ... ok
+test_cached_results_are_isolated_and_warm_hit_has_no_data_sql (performance.tests.PerformanceTests.test_cached_results_are_isolated_and_warm_hit_has_no_data_sql) ... ok
+test_cookie_change_reuses_the_authorized_cached_data (performance.tests.PerformanceTests.test_cookie_change_reuses_the_authorized_cached_data) ... ok
+test_diagnosis_m2m_invalidates_cache (performance.tests.PerformanceTests.test_diagnosis_m2m_invalidates_cache) ... ok
+test_feature_is_disabled_outside_lab (performance.tests.PerformanceTests.test_feature_is_disabled_outside_lab) ... ok
+test_long_reason_is_not_loaded (performance.tests.PerformanceTests.test_long_reason_is_not_loaded) ... ok
+test_optimized_is_two_queries_with_identical_results (performance.tests.PerformanceTests.test_optimized_is_two_queries_with_identical_results) ... ok
+test_patient_cannot_see_foreign_rows (performance.tests.PerformanceTests.test_patient_cannot_see_foreign_rows) ... ok
+test_permission_revocation_blocks_a_previously_cached_page (performance.tests.PerformanceTests.test_permission_revocation_blocks_a_previously_cached_page) ... ok
+test_slow_page_shows_n_plus_one (performance.tests.PerformanceTests.test_slow_page_shows_n_plus_one) ... ok
+test_stats_and_page_revision_refresh_after_committed_changes (performance.tests.PerformanceTests.test_stats_and_page_revision_refresh_after_committed_changes) ... ok
+
+----------------------------------------------------------------------
+Ran 94 tests in 10.923s
+
+OK
+Destroying test database for alias 'default' ('test_clinic_db')...
+ OK
+System check identified no issues (0 silenced).

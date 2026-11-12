@@ -1,0 +1,14 @@
+{
+  "database": "clinic_db",
+  "original_clinical_records_verified": {
+    "blog_doctor": 20,
+    "blog_patient": 32,
+    "blog_diagnosis": 5,
+    "blog_appointment": 100,
+    "blog_patient_doctors": 1,
+    "blog_appointment_diagnoses": 198
+  },
+  "same_table_content_all_stages": true,
+  "training_appointments": 20000,
+  "training_notes": 60000
+}

@@ -1,0 +1,6 @@
+{
+  "Django": "6.1.2",
+  "django-debug-toolbar": "8.0.0",
+  "psycopg": "3.3.6",
+  "reportlab": "5.1.0"
+}
