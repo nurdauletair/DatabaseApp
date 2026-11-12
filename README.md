@@ -1,133 +1,162 @@
-# 11-ЗС · Производительность клиники
+# Емхана — управление приёмами клиники
 
-Продолжение того же проекта в `/Users/nurdaulet/DatabaseApp`. Инструкция: [LAB11.md](LAB11.md). Демонстрация после запуска: http://127.0.0.1:8000/monitoring/ . Отчёт находится в `reports/`, измерения и скриншоты — в `evidence/`.
+Django-приложение для врачей, пациентов и регистратуры: запись на приём,
+диагнозы, поиск, фильтры, REST API и разграничение доступа.
+Основная база данных — PostgreSQL. Интерфейс сайта на казахском языке.
 
-# Емхана: Django жобасы (CRUD веб-қосымша + REST API)
+## Одна папка, одна ветка
 
-Емхана қабылдауларын жүргізуге арналған оқу жобасы: **дәрігерлер**, **науқастар**,
-**диагноздар** және **қабылдаулар**. Бір дерекқорға екі интерфейс бар:
-адамға арналған веб-беттер және бағдарламаларға арналған REST API.
+Вся актуальная работа находится в **`main`** этого репозитория.
+На текущем Mac проект находится в `/Users/nurdaulet/DatabaseApp`.
+Следующие задания выполняются здесь же. Переключать учебные ветки не требуется.
+Предыдущие версии сохранены в истории Git; метки `clinic-before-lab10`
+и `clinic-before-lab11` отмечают состояние до соответствующих работ.
 
-## Мүмкіндіктер
+## Обычный запуск на текущем Mac
 
-- **Модельдер:** `Doctor`, `Patient`, `Diagnosis`, `Appointment`
-  (`ForeignKey`: қабылдау → дәрігер, науқас; `ManyToManyField`: науқас ↔ дәрігер, қабылдау ↔ диагноз).
-- **Веб-CRUD:** қабылдаулар (функциялық көріністер), науқастар мен дәрігерлер (класс көріністері);
-  `ModelForm` және қазақша валидация; іздеу, сүзу, сұрыптау, беттеу; басты бетте қорытынды көрсеткіштер.
-- **REST API (DRF):** `ModelSerializer`, `ModelViewSet`, `DefaultRouter`, толық CRUD (JSON),
-  іздеу/сұрыптау/сүзу, беттеу, модель рұқсаттары және объект деңгейіндегі шектеу.
-- **ORM сапасы:** `select_related`, `prefetch_related`, `annotate`, `aggregate`; N+1 жоқ (тестпен бекітілген).
-- **Тесттер:** модель, веб және API тесттері.
-- **Әкімшілік панелі:** барлық модель, іздеу, сүзгі, «Өтті деп белгілеу» әрекеті.
+```bash
+cd /Users/nurdaulet/DatabaseApp
+source venv/bin/activate
+brew services start postgresql@17
+git pull --ff-only
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
 
-## 10-ЗС: пайдаланушылар, рөлдер, сеанстар және токендер
+Открыть http://127.0.0.1:8000/ . Остановить сервер: **Ctrl+C** в его терминале.
+Если порт занят другим запущенным сервером, можно использовать
+`python manage.py runserver 8001` и http://127.0.0.1:8001/ .
+Локальные учебные пароли: `.local-backups/demo-credentials.txt`.
 
-Толық нұсқаулық, PostgreSQL баптау, құқықтар кестесі, curl сұраныстары және қорғау сұрақтары: **[LAB10.md](LAB10.md)**.
+## Первый запуск на другом ноутбуке
 
-- `accounts.User(AbstractUser)` + телефон; тіркелу тек `patient` рөлін береді.
-- `/signup/`, `/login/`, POST `/logout/`, `/profile/`, POST `/logout-all/`.
-- Науқас `/appointments/book/` арқылы өзіне жазылады; тіркеуші жазбаны растайды.
-- Token: `/api/token/`, `/api/token/logout/`. JWT: `/api/jwt/`, `/api/jwt/refresh/`, `/api/jwt/logout/`.
-- Қосымша B: refresh blacklist, ротация, ескі refresh-ті қайта қолдануға тыйым.
-- `DB_ENGINE=postgresql` — PostgreSQL; жаңа таза база үшін `DB_ENGINE=sqlite` — SQLite.
-- Ескі `auth.User` бар SQLite-қа осы тармақтан жай ғана `migrate` жасамаңыз. Ескі база көшірмесі сақталған; деректер жаңа базаға көшіріледі.
-
-## Орнату және іске қосу
+Нужны Python 3.12+ и PostgreSQL. Команды ниже для macOS/Linux;
+в Windows активация окружения: `venv\Scripts\activate`.
 
 ```bash
 git clone https://github.com/nurdauletair/DatabaseApp.git
 cd DatabaseApp
-git switch lab10-auth
 python3 -m venv venv
-source venv/bin/activate            # Windows: venv\Scripts\activate
+source venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
 
-cp .env.example .env                # құпия кілтті жасау:
-python -c "from django.core.management.utils import get_random_secret_key as k; print(k())"
-# шыққан мәнді .env ішіндегі DJANGO_SECRET_KEY-ге жазыңыз
+Записать сгенерированный ключ в `DJANGO_SECRET_KEY` файла `.env`.
+В PostgreSQL от имени администратора создать пользователя и пустую базу,
+подставив собственный пароль:
 
+```sql
+CREATE ROLE clinic_user LOGIN CREATEDB PASSWORD 'choose-your-own-password';
+CREATE DATABASE clinic_db OWNER clinic_user;
+```
+
+В `.env` указать `DB_ENGINE=postgresql`, `DB_NAME=clinic_db`,
+`DB_USER=clinic_user`, `DB_PASSWORD` с выбранным паролем,
+`DB_HOST=127.0.0.1`, `DB_PORT=5432`. Право CREATEDB нужно для тестовой базы.
+
+Далее выбрать один способ подготовки данных:
+
+- **Перенести текущие записи и аккаунты:** восстановить копию базы по разделу ниже,
+  затем выполнить `python manage.py migrate`. Учебных пользователей заново создавать не нужно.
+- **Начать с новой базы и новыми учебными аккаунтами:** выполнить команды ниже один раз.
+
+```bash
 python manage.py migrate
-python manage.py setup_roles        # patient / doctor / registrar
-python manage.py createsuperuser    # әкімші аккаунты
-python manage.py seed               # демо-деректер: 20 дәрігер, 30 науқас, 100 қабылдау
+python manage.py create_demo_users --credentials-file .local-backups/demo-credentials.txt
+```
+
+После подготовки базы:
+
+```bash
+python manage.py check
 python manage.py runserver
 ```
 
-Сайт: http://127.0.0.1:8000/ · API: http://127.0.0.1:8000/api/ · Админка: http://127.0.0.1:8000/admin/
+Для демонстрации производительности установить `PERFORMANCE_LAB=1` в `.env`.
+На новой базе после создания учебных аккаунтов можно один раз выполнить
+`python manage.py seed_perf`: он добавляет 20 000 учебных приёмов.
+Если восстановлена текущая база, эти данные уже есть.
+Команда `seed` удаляет существующие записи клиники: для запуска и обновления она не нужна.
 
-## Тесттер
+## Перенос текущей базы
+
+Git переносит код. PostgreSQL, `.env`, виртуальное окружение и файл паролей
+хранятся отдельно и не публикуются на GitHub.
+Чтобы на другом ноутбуке появились те же приёмы и аккаунты, сначала на исходном компьютере:
 
 ```bash
+mkdir -p .local-backups
+pg_dump -h 127.0.0.1 -U clinic_user -d clinic_db -Fc -f .local-backups/clinic_db.dump
+```
+
+Команда запросит пароль PostgreSQL из `.env`. На Mac с Homebrew при необходимости
+сначала добавить инструменты в PATH:
+`export PATH="$(brew --prefix postgresql@17)/bin:$PATH"`.
+Передать файл `clinic_db.dump` лично на другой ноутбук. Затем восстановить его
+в **новую пустую** базу `clinic_db`, созданную выше, до первого `migrate`:
+
+```bash
+pg_restore -h 127.0.0.1 -U clinic_user -d clinic_db --no-owner --no-privileges --exit-on-error /path/to/clinic_db.dump
+python manage.py migrate
+```
+
+Для входа сохранёнными учебными аккаунтами также передать себе
+`.local-backups/demo-credentials.txt` вне GitHub. Настройки `.env` должны
+соответствовать PostgreSQL на новом ноутбуке.
+
+## Работа с двух ноутбуков
+
+Перед изменениями в папке проекта:
+
+```bash
+git pull --ff-only
+```
+
+После работы сохранить изменённые файлы и отправить их:
+
+```bash
+git status
+git add ИМЕНА_ИЗМЕНЁННЫХ_ФАЙЛОВ
+git commit -m "Описание изменений"
+git push
+```
+
+В `git add` указать реальные пути нужных файлов из `git status`.
+Сначала отправить изменения с первого ноутбука, затем выполнить `git pull --ff-only`
+на втором. Изменения записей в PostgreSQL передаются отдельной копией базы.
+
+## Доступ и разделы
+
+| Роль | Доступ |
+| --- | --- |
+| Пациент | Свои приёмы и запись к врачу |
+| Врач | Свои приёмы и связанные пациенты |
+| Регистратор | Записи клиники и управление приёмами |
+| Администратор | Полный доступ, пользователи и роли |
+
+Сайт: `/`; приёмы: `/appointments/`; пациенты: `/patients/`; врачи: `/doctors/`.
+Вход: `/login/`; регистрация: `/signup/`; профиль: `/profile/`; админка: `/admin/`.
+Служебный раздел «Жүйе күйі»: `/monitoring/` (при `PERFORMANCE_LAB=1`).
+Debug Toolbar скрывается настройкой `LAB11_TOOLBAR=0` в `.env` и перезапуском сервера.
+
+REST API: `/api/`, ресурсы `doctors`, `patients`, `diagnoses`, `appointments`.
+Token: `/api/token/`, `/api/token/logout/`.
+JWT: `/api/jwt/`, `/api/jwt/refresh/`, `/api/jwt/logout/`.
+Объектные ограничения действуют также на API и статистику.
+
+## Материалы и проверка
+
+- [LAB10.md](LAB10.md) — роли, сессии, Token/JWT и защита работы.
+- [LAB11.md](LAB11.md) — оптимизация запросов, индексы, кэш и измерения.
+- `reports/` — PDF-отчёт; `evidence/` — измерения и скриншоты.
+- `accounts/` — пользователи и роли; `blog/` — клиника и API;
+  `performance/` — мониторинг; `config/` — настройки.
+
+```bash
+python manage.py check
+python manage.py makemigrations --check --dry-run
 python manage.py test
 ```
-
-## Веб-беттер
-
-| Бет | URL |
-| --- | --- |
-| Басты бет | `/` |
-| Қабылдаулар: тізім, қарау, қосу, өңдеу, жою | `/appointments/`, `/appointments/<id>/`, `/new/`, `/<id>/edit/`, `/<id>/delete/` |
-| Науқастар | `/patients/`, `/patients/<id>/`, `/new/`, `/<id>/edit/`, `/<id>/delete/` |
-| Дәрігерлер | `/doctors/`, `/doctors/<id>/`, `/new/`, `/<id>/edit/`, `/<id>/delete/` |
-
-Жою екі қадамды: GET растау бетін көрсетеді, POST жояды. Сәтті POST-тан кейін redirect (302).
-
-## REST API
-
-Базалық адрес: `/api/`. Ресурстар: `doctors`, `patients`, `diagnoses`, `appointments`.
-
-| Әдіс | URL | Әрекет | Код |
-| --- | --- | --- | --- |
-| GET | `/api/appointments/` | тізім (беттеумен) | 200 |
-| POST | `/api/appointments/` | құру | 201 |
-| GET | `/api/appointments/1/` | бір жазба | 200 |
-| PUT, PATCH | `/api/appointments/1/` | жаңарту | 200 |
-| DELETE | `/api/appointments/1/` | өшіру | 204 |
-| GET | `/api/appointments/stats/` | қорытынды (aggregate) | 200 |
-
-Параметрлер: `?search=`, `?ordering=-price`, `?status=done`, `?doctor=3`, `?page=2`.
-
-**Рұқсаттар:** анонимге API `401`, рұқсатсыз әрекетке `403`. Науқас өз жазбаларын, дәрігер өз қабылдауларын, тіркеуші барлық жазбаны көреді. Тізімдер мен статистика да шектелген. Бөгде API объектісі — `404`. Браузерде кіру: `/login/` немесе `/api-auth/login/`.
-Қабылдаулары бар дәрігерді өшіруге тырысқанда API `409 Conflict` қайтарады.
-
-Мысал (curl, тіркеушінің Token токенімен):
-
-```bash
-curl -H "Authorization: Token <TOKEN>" "http://127.0.0.1:8000/api/appointments/?status=planned"
-
-curl -H "Authorization: Token <TOKEN>" -X POST http://127.0.0.1:8000/api/appointments/ \
-  -H "Content-Type: application/json" \
-  -d '{"doctor_id": 1, "patient_id": 1, "diagnoses": ["Грипп"],
-       "price": "4500.00", "duration": 30, "status": "planned",
-       "date": "2026-11-01T10:00:00+05:00"}'
-```
-
-## Жоба құрылымы
-
-```
-config/            баптаулар, басты urls.py
-blog/models.py     модельдер
-blog/forms.py      ModelForm және валидация
-blog/views.py      веб-көріністер (FBV және CBV)
-blog/urls.py       веб-маршруттар
-blog/templates/    шаблондар (base.html + беттер)
-blog/static/       стиль (style.css)
-blog/api/          serializers.py, views.py, urls.py (DRF)
-blog/admin.py      әкімшілік панелі
-blog/queries.py    ORM сұраныстары және N+1 өлшеу
-blog/test_*.py     тесттер (модель, веб, API)
-```
-
-## Құпиялар
-
-`SECRET_KEY` пен басқа құпия баптаулар `.env` файлында тұрады және Git-ке түспейді
-(`.gitignore`). Үлгі: `.env.example`.
-
-## Сұраныстар саны (N+1 жоқ)
-
-| Сценарий | Дейін | Кейін |
-| --- | --- | --- |
-| 100 қабылдау + дәрігер (`select_related`) | 101 | 1 |
-| 100 қабылдау + диагноздар (`prefetch_related`) | 101 | 2 |
-| 100 қабылдау + дәрігер + диагноз (екеуі бірге) | 201 | 2 |
-| API: қабылдаулар беті (10 жазба) | — | 3 |

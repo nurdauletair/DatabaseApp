@@ -218,26 +218,22 @@ PostgreSQL бапталғанда тесттер `test_clinic_db` жеке де�
 Тапсыру үшін `\dt` шығысын, admin Groups пен Users беттерін және дәрігердің
 шектелген әрекетіне арналған 403 бетін браузер/терминал арқылы суретке түсіріңіз.
 
-## Git арқылы қайту
+## Git тарихы
 
-Бастапқы код: `main`, нақты нүкте: `clinic-before-lab10` (`0aa87b7`).
-Жаңа код: `lab10-auth`. Git `.env` пен дерекқорды сақтамайды.
-
-Ескі сайтты жаңа тармаққа тимей бөлек қалтада ашу:
-
-```bash
-git worktree add ../DatabaseApp-before-lab10 clinic-before-lab10
-```
-
-Содан кейін `.local-backups/before-lab10-.../` ішіндегі `.env` және `db.sqlite3`
-файлдарын **сол жаңа қалтаға** көшіріңіз. Бұрынғы виртуалды орта Python-ын пайдаланып:
+Ағымдағы код `main` тармағында. Барлық келесі жұмыс осы жоба қалтасында жалғасады.
+Бұрынғы нұсқалар Git тарихында сақталған: `clinic-before-lab10` (`0aa87b7`)
+және `clinic-before-lab11` тегтері. Тарихты және бұрынғы модельдерді
+тармақ ауыстырмай көру:
 
 ```bash
-cd ../DatabaseApp-before-lab10
-../DatabaseApp/venv/bin/python manage.py runserver 8001
+git log --oneline --decorate
+git show clinic-before-lab10:blog/models.py
+git show clinic-before-lab11:blog/models.py
 ```
 
-Бұл тәсіл жаңа PostgreSQL базасын және `lab10-auth` тармағын өзгертпейді.
+Git `.env` пен дерекқорды сақтамайды; код нұсқасын өзгерту деректерді қалпына келтірмейді.
+Дерекқор көшірмелері `.local-backups/` ішінде сақталады.
+Басқа ноутбукке көшу және күнделікті іске қосу нұсқаулығы: [README.md](README.md).
 `.local-backups/` ішіндегі парольдер мен медициналық деректер GitHub-қа жіберілмейді.
 
 ## Қорғау сұрақтарына қысқа жауаптар

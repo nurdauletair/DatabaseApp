@@ -1,6 +1,6 @@
 # 11-ЗС: производительность Django в проекте клиники
 
-Вся работа продолжается в `/Users/nurdaulet/DatabaseApp`, в том же Git-репозитории и PostgreSQL `clinic_db`. Ветка `lab11-performance`; версия 10-ЗС сохранена в `lab10-auth` и теге `clinic-before-lab11`. Резервная копия до изменения данных: `.local-backups/before-lab11/clinic_db.sql`.
+Вся работа продолжается в `/Users/nurdaulet/DatabaseApp`, в том же Git-репозитории и PostgreSQL `clinic_db`. Актуальная версия находится в `main`; состояние до 11-ЗС сохранено в теге `clinic-before-lab11`. Отдельные учебные ветки объединены в `main`. Резервная копия до изменения данных: `.local-backups/before-lab11/clinic_db.sql`.
 
 ## Запуск
 
