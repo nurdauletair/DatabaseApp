@@ -15,7 +15,7 @@
         <a href="{% url 'appointment_list' %}" {% if '/appointments/' in request.path %}class="active"{% endif %}>Қабылдаулар</a>
         <a href="{% url 'patient_list' %}" {% if '/patients/' in request.path %}class="active"{% endif %}>Науқастар</a>
         <a href="{% url 'doctor_list' %}" {% if '/doctors/' in request.path %}class="active"{% endif %}>Дәрігерлер</a>
-        <a href="/lab11/">11-ЗС</a>
+        {% if user.is_staff %}<a href="{% url 'performance:index' %}" {% if '/monitoring/' in request.path or '/lab11/' in request.path %}class="active"{% endif %}>Жүйе күйі</a>{% endif %}
         {% endif %}
       </nav>
       <div class="account-nav">
@@ -38,6 +38,6 @@
     {% endif %}
     {% block content %}{% endblock %}
   </main>
-  <footer class="site-footer">Емхана · оқу жобасы</footer>
+  <footer class="site-footer">Емхана · Қабылдауларды басқару</footer>
 </body>
 </html>

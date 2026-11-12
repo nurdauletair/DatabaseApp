@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}11-ЗС · {{ stage }}{% endblock %}
+{% block title %}Жүйе күйі · {{ stage }}{% endblock %}
 {% block content %}
 <div class="page-head"><div><h1>Қабылдаулар · {{ stage }}</h1><p class="sub">Жоспарланған соңғы 50 қабылдау. {{ user.username }}</p></div></div>
-<p><a href="/lab11/slow/">Бастапқы нұсқа</a> · <a href="/lab11/optimized/">N+1 түзетілген</a> · <a href="/lab11/cached/">Кэш</a></p>
+<p><a href="{% url 'performance:index' %}">Жүйе күйі</a> · <a href="{% url 'performance:slow' %}">Қалыпты жүктеу</a> · <a href="{% url 'performance:optimized' %}">Жылдам жүктеу</a> · <a href="{% url 'performance:cached' %}">Сақталған нәтиже</a></p>
 {% if stats %}<div class="card"><h2>Көрінетін деректер</h2><p>Қабылдау: {{ stats.appointments }} · Жазба: {{ stats.notes }}</p><p>{% for item in stats.top_diagnoses %}<span class="tag">{{ item.name }}: {{ item.n }}</span>{% endfor %}</p></div>{% endif %}
 <div class="card flush table-wrap"><table>
 <thead><tr><th>ID</th><th>Күні</th><th>Науқас</th><th>Дәрігер</th><th>Диагноздар</th><th>Жазба саны</th></tr></thead>

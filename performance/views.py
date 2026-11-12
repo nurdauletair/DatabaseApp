@@ -17,12 +17,12 @@ def lab_access(view):
 
 @lab_access
 def slow(request):
-    return render(request, "performance/list.html", {"appointments": slow_rows(request.user), "stage": "Бастапқы нұсқа", "slow": True})
+    return render(request, "performance/list.html", {"appointments": slow_rows(request.user), "stage": "Қалыпты жүктеу", "slow": True})
 
 
 @lab_access
 def optimized(request):
-    return render(request, "performance/list.html", {"appointments": optimized_rows(request.user), "stage": "N+1 түзетілген"})
+    return render(request, "performance/list.html", {"appointments": optimized_rows(request.user), "stage": "Жылдам жүктеу"})
 
 
 @lab_access
@@ -36,7 +36,7 @@ def _cached_content(request):
     rows = cache.get_or_set("clinic:rows:" + scope_key(request.user),
                             lambda: list(optimized_rows(request.user)), timeout=60)
     return render(request, "performance/list.html", {"appointments": rows,
-                  "stage": "Кэш", "stats": clinic_stats(request.user)})
+                  "stage": "Сақталған нәтиже", "stats": clinic_stats(request.user)})
 
 
 @lab_access

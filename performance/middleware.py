@@ -11,7 +11,7 @@ class TimingMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        if not settings.DEBUG or not settings.PERFORMANCE_LAB or not request.path.startswith("/lab11/"):
+        if not settings.DEBUG or not settings.PERFORMANCE_LAB or not request.path.startswith(("/lab11/", "/monitoring/")):
             return self.get_response(request)
         start = time.perf_counter()
         with CaptureQueriesContext(connection) as queries:
