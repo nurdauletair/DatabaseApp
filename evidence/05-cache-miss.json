@@ -2,85 +2,85 @@
   "stage": "cache-miss",
   "path": "/lab11/cached/",
   "cache_mode": "miss",
-  "measured_at": "2026-11-12T14:23:20.603253+05:00",
+  "measured_at": "2026-11-12T14:37:16.524093+05:00",
   "backend": "postgresql",
   "repetitions": 5,
   "business": {
     "samples": [
       {
         "sql_count": 5,
-        "sql_ms": 58.24579099999028,
-        "page_ms": 68.24966700014556,
+        "sql_ms": 53.52274999995643,
+        "page_ms": 68.26124999997774,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 5,
-        "sql_ms": 29.612667000037618,
-        "page_ms": 36.960458000066865,
+        "sql_ms": 56.264791000558034,
+        "page_ms": 92.99520899958225,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 5,
-        "sql_ms": 26.171125000018947,
-        "page_ms": 33.845333000044775,
+        "sql_ms": 28.262333000384388,
+        "page_ms": 35.59766700027467,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 5,
-        "sql_ms": 24.615873999664473,
-        "page_ms": 32.8402919999462,
+        "sql_ms": 25.318458999663562,
+        "page_ms": 33.198042000094574,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 5,
-        "sql_ms": 21.502000999589654,
-        "page_ms": 29.546167000262358,
+        "sql_ms": 22.766748999856645,
+        "page_ms": 31.042000000070402,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       }
     ],
     "median": {
       "sql_count": 5,
-      "sql_ms": 26.171125000018947,
-      "page_ms": 33.845333000044775
+      "sql_ms": 28.262333000384388,
+      "page_ms": 35.59766700027467
     }
   },
   "http": {
     "samples": [
       {
         "sql_count": 7,
-        "sql_ms": 21.053291999578505,
-        "page_ms": 31.08008399976825,
+        "sql_ms": 21.12312499957625,
+        "page_ms": 31.41016600011426,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 7,
-        "sql_ms": 21.253541000078258,
-        "page_ms": 30.195333999927243,
+        "sql_ms": 20.90358199984621,
+        "page_ms": 30.81395800018072,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 7,
-        "sql_ms": 19.622457999048493,
-        "page_ms": 28.020291999837355,
+        "sql_ms": 20.010626999464876,
+        "page_ms": 29.202499999883003,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 7,
-        "sql_ms": 19.05383500024982,
-        "page_ms": 27.21312499988926,
+        "sql_ms": 19.558248999601346,
+        "page_ms": 28.934333000051993,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 7,
-        "sql_ms": 18.662167999536905,
-        "page_ms": 26.304540999717574,
+        "sql_ms": 18.207374000667187,
+        "page_ms": 26.490499999908934,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       }
     ],
     "median": {
       "sql_count": 7,
-      "sql_ms": 19.622457999048493,
-      "page_ms": 28.020291999837355
+      "sql_ms": 20.010626999464876,
+      "page_ms": 29.202499999883003
     }
   }
 }

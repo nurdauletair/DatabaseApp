@@ -2,7 +2,7 @@
   "stage": "cache-hit",
   "path": "/lab11/cached/",
   "cache_mode": "hit",
-  "measured_at": "2026-11-12T14:23:21.211706+05:00",
+  "measured_at": "2026-11-12T14:37:17.198303+05:00",
   "backend": "postgresql",
   "repetitions": 5,
   "business": {
@@ -10,77 +10,77 @@
       {
         "sql_count": 0,
         "sql_ms": 0,
-        "page_ms": 0.10424999982205918,
+        "page_ms": 0.1260000003640016,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 0,
         "sql_ms": 0,
-        "page_ms": 0.09566699964125291,
+        "page_ms": 0.11399999993955134,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 0,
         "sql_ms": 0,
-        "page_ms": 0.0838339997244475,
+        "page_ms": 0.0987079997685214,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 0,
         "sql_ms": 0,
-        "page_ms": 0.07687500010433723,
+        "page_ms": 0.09108399990509497,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 0,
         "sql_ms": 0,
-        "page_ms": 0.06975000042075408,
+        "page_ms": 0.0826669997877616,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       }
     ],
     "median": {
       "sql_count": 0,
       "sql_ms": 0,
-      "page_ms": 0.0838339997244475
+      "page_ms": 0.0987079997685214
     }
   },
   "http": {
     "samples": [
       {
         "sql_count": 2,
-        "sql_ms": 0.26716699949247413,
-        "page_ms": 1.0302089999640884,
+        "sql_ms": 0.3320410000924312,
+        "page_ms": 1.2894999999844003,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 2,
-        "sql_ms": 0.2705000006244518,
-        "page_ms": 1.1135419999845908,
+        "sql_ms": 0.272374000360287,
+        "page_ms": 1.0794170002554893,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 2,
-        "sql_ms": 0.19620800003394834,
-        "page_ms": 0.9107500000027358,
+        "sql_ms": 0.2626670002428,
+        "page_ms": 1.1007080001945724,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 2,
-        "sql_ms": 0.24129099983838387,
-        "page_ms": 0.8763330001784198,
+        "sql_ms": 0.2285820000906824,
+        "page_ms": 1.018708999708906,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       },
       {
         "sql_count": 2,
-        "sql_ms": 0.23620899992238265,
-        "page_ms": 0.9351250000690925,
+        "sql_ms": 0.2517919997444551,
+        "page_ms": 0.9972089997063449,
         "table_sha256": "1f7e8081a22dc392f85bbd924fb0861bed70282dd5314aa05fdfb19f916c8646"
       }
     ],
     "median": {
       "sql_count": 2,
-      "sql_ms": 0.24129099983838387,
-      "page_ms": 0.9351250000690925
+      "sql_ms": 0.2626670002428,
+      "page_ms": 1.0794170002554893
     }
   }
 }

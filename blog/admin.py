@@ -94,6 +94,8 @@ admin.site.index_title = "Басқару панелі"
 
 @admin.register(AppointmentNote)
 class AppointmentNoteAdmin(admin.ModelAdmin):
+    raw_id_fields = ["appointment"]
+    raw_id_fields = ["appointment"]
     list_display = ["id", "appointment", "text"]
     list_select_related = ["appointment__doctor", "appointment__patient"]
     search_fields = ["text"]

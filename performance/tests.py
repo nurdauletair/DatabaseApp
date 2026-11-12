@@ -105,3 +105,19 @@ class PerformanceTests(TestCase):
         self.assertEqual(self.client.get("/lab11/cached/").status_code, 200)
         self.patient_user.groups.clear()
         self.assertEqual(self.client.get("/lab11/cached/").status_code, 403)
+
+    def test_cookie_change_reuses_the_authorized_cached_data(self):
+        from django.test import RequestFactory
+        from django.contrib.sessions.backends.db import SessionStore
+        from django.core.cache import cache
+        from .views import cached
+        cache.clear()
+        factory = RequestFactory()
+        first = factory.get("/lab11/cached/", HTTP_COOKIE="sessionid=first")
+        first.user, first.session = self.admin, SessionStore()
+        cached(first)
+        second = factory.get("/lab11/cached/", HTTP_COOKIE="sessionid=first; csrftoken=changed")
+        second.user, second.session = self.admin, SessionStore()
+        with self.assertNumQueries(0):
+            response = cached(second)
+        self.assertEqual(response.status_code, 200)

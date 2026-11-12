@@ -31,8 +31,11 @@ def index(request):
 
 
 def _cached_content(request):
-    from .cache import clinic_stats
-    return render(request, "performance/list.html", {"appointments": optimized_rows(request.user),
+    from django.core.cache import cache
+    from .cache import clinic_stats, scope_key
+    rows = cache.get_or_set("clinic:rows:" + scope_key(request.user),
+                            lambda: list(optimized_rows(request.user)), timeout=60)
+    return render(request, "performance/list.html", {"appointments": rows,
                   "stage": "Кэш", "stats": clinic_stats(request.user)})
 
 

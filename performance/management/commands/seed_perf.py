@@ -2,16 +2,14 @@ import random
 from datetime import date, timedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from django.core.management.base import BaseCommand, CommandError
-from django.core.management import call_command
 from django.db import transaction
 from django.utils import timezone
 from blog.models import Appointment, AppointmentNote, Diagnosis, Doctor, Patient
 
 
 class Command(BaseCommand):
-    help = "Seed a NEW isolated lab database: 20,000 appointments, 60,000 notes."
+    help = "Append 20,000 marked training appointments and 60,000 notes to the existing clinic database."
 
     @transaction.atomic
     def handle(self, *args, **options):
