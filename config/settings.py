@@ -184,3 +184,26 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
+
+# Local profiling only; never enable Toolbar or per-query capture in production.
+LAB11_TOOLBAR = DEBUG and PERFORMANCE_LAB and os.environ.get("LAB11_TOOLBAR", "1") == "1"
+if LAB11_TOOLBAR:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+INTERNAL_IPS = ["127.0.0.1", "::1"]
+if DEBUG and PERFORMANCE_LAB:
+    MIDDLEWARE.insert(0, "performance.middleware.TimingMiddleware")
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"perf": {"format": "{asctime} {levelname} {name}: {message}", "style": "{"}},
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "perf"},
+        "perf_file": {"class": "logging.handlers.RotatingFileHandler", "formatter": "perf",
+                      "filename": BASE_DIR / ".local-backups" / "perf.log", "maxBytes": 2000000, "backupCount": 2, "delay": True},
+    },
+    "loggers": {
+        "perf": {"handlers": ["console", "perf_file"], "level": "INFO", "propagate": False},
+        "django.db.backends": {"handlers": ["console"], "level": "DEBUG" if DEBUG and os.environ.get("LAB11_SQL_LOG") == "1" else "WARNING", "propagate": False},
+    },
+}
