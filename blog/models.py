@@ -85,6 +85,8 @@ class Appointment(models.Model):
         verbose_name="Диагноздар",
     )
     date = models.DateTimeField("Қабылдау уақыты")
+    is_training = models.BooleanField("Оқу дерегі", default=False)
+    reason = models.TextField("Қабылдау себебі", blank=True, default="")
     price = models.DecimalField("Бағасы", max_digits=8, decimal_places=2, default=0)
     duration = models.PositiveIntegerField("Ұзақтығы (мин)", default=30)
     status = models.CharField(
@@ -103,3 +105,12 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.patient} → {self.doctor} ({self.date:%d.%m.%Y})"
+
+
+class AppointmentNote(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="notes")
+    text = models.TextField("Жазба")
+
+    class Meta:
+        verbose_name = "Қабылдау жазбасы"
+        verbose_name_plural = "Қабылдау жазбалары"

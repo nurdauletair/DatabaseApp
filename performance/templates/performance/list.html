@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}11-ЗС · {{ stage }}{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>Қабылдаулар · {{ stage }}</h1><p class="sub">Жоспарланған соңғы 50 қабылдау. {{ user.username }}</p></div></div>
+<p><a href="/lab11/slow/">Бастапқы нұсқа</a> · <a href="/lab11/optimized/">N+1 түзетілген</a> · <a href="/lab11/cached/">Кэш</a></p>
+{% if stats %}<div class="card"><h2>Көрінетін деректер</h2><p>Қабылдау: {{ stats.appointments }} · Жазба: {{ stats.notes }}</p><p>{% for item in stats.top_diagnoses %}<span class="tag">{{ item.name }}: {{ item.n }}</span>{% endfor %}</p></div>{% endif %}
+<div class="card flush table-wrap"><table>
+<thead><tr><th>ID</th><th>Күні</th><th>Науқас</th><th>Дәрігер</th><th>Диагноздар</th><th>Жазба саны</th></tr></thead>
+<tbody>{% for a in appointments %}<tr>
+<td>{{ a.pk }}</td><td>{{ a.date|date:"d.m.Y H:i" }}</td><td>{{ a.patient.full_name }}</td><td>{{ a.doctor.full_name }}</td>
+<td>{% for d in a.diagnoses.all %}<span class="tag">{{ d.name }}</span>{% endfor %}</td>
+<td>{% if slow %}{{ a.notes.count }}{% else %}{{ a.n_notes }}{% endif %}</td>
+</tr>{% empty %}<tr><td colspan="6" class="empty">Қабылдаулар жоқ.</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}

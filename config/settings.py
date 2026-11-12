@@ -49,7 +49,10 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "rest_framework_simplejwt.token_blacklist",
     "accounts",
+    "performance",
 ]
+
+PERFORMANCE_LAB = os.environ.get("PERFORMANCE_LAB", "0") == "1"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
