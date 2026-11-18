@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "accounts",
     "performance",
+    "reporting",
 ]
 
 PERFORMANCE_LAB = os.environ.get("PERFORMANCE_LAB", "0") == "1"
@@ -210,3 +211,17 @@ LOGGING = {
 
 CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache",
                       "LOCATION": "clinic-lab11", "TIMEOUT": 300}}
+
+
+# API keys are server-only. Never expose these values in templates or logs.
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4-mini")
+REPORT_DATABASE = {
+    "dbname": DATABASES["default"]["NAME"],
+    "host": os.environ.get("DB_HOST", "127.0.0.1"),
+    "port": os.environ.get("DB_PORT", "5432"),
+    "user": os.environ.get("REPORT_DB_USER", "clinic_report_ro"),
+    "password": os.environ.get("REPORT_DB_PASSWORD", ""),
+}
+REPORT_REQUESTS_PER_MINUTE = 5
+REPORT_REQUESTS_PER_DAY = 50

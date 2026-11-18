@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-11-18T09:57:26.480562+00:00",
+  "tests": {
+    "total": 118,
+    "passed": 118,
+    "postgresql_integration_included": true
+  },
+  "django_check": "passed",
+  "migration_drift": false,
+  "clinical_row_counts_unchanged": true,
+  "row_counts": {
+    "accounts_user": 5,
+    "blog_doctor": 219,
+    "blog_patient": 2031,
+    "blog_diagnosis": 55,
+    "blog_appointment": 20100,
+    "blog_appointmentnote": 60000,
+    "blog_appointment_diagnoses": 60198,
+    "blog_patient_doctors": 1
+  },
+  "report_non_training_appointments": 100,
+  "reader_is_separate_unprivileged_role": true,
+  "reader_read_only_default": "on",
+  "references_valid": 10,
+  "llm_api_calls_made": 0,
+  "api_key_left_blank_for_owner": true,
+  "env_permissions": "0600",
+  "env_and_backups_ignored": true,
+  "browser_visual_review": "unavailable: browser access host not connected",
+  "remaining": [
+    "Owner creates and enters API key",
+    "Live GPT response and two-prompt accuracy evaluation after key entry"
+  ]
+}

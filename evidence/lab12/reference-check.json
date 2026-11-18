@@ -1,0 +1,89 @@
+{
+  "created_at": "2026-11-18T09:53:47.006201+00:00",
+  "model": "gpt-5.4-mini",
+  "llm_evaluated": false,
+  "cases": [
+    {
+      "id": 1,
+      "difficulty": "easy",
+      "question": "Сколько всего врачей зарегистрировано?",
+      "reference_sql": "SELECT COUNT(*) AS total FROM clinic_reports.report_doctors LIMIT 100",
+      "reference_rows": 1,
+      "reference_valid": true
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": "Сколько всего профилей пациентов?",
+      "reference_sql": "SELECT COUNT(*) AS total FROM clinic_reports.report_patients LIMIT 100",
+      "reference_rows": 1,
+      "reference_valid": true
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": "Сколько всего приёмов без учебных?",
+      "reference_sql": "SELECT COUNT(*) AS total FROM clinic_reports.report_appointments LIMIT 100",
+      "reference_rows": 1,
+      "reference_valid": true
+    },
+    {
+      "id": 4,
+      "difficulty": "medium",
+      "question": "Сколько приёмов в каждом статусе?",
+      "reference_sql": "SELECT status, COUNT(*) AS total FROM clinic_reports.report_appointments GROUP BY status ORDER BY status LIMIT 100",
+      "reference_rows": 3,
+      "reference_valid": true
+    },
+    {
+      "id": 5,
+      "difficulty": "medium",
+      "question": "Сколько приёмов у каждого врача, у которого есть приёмы? Покажи id, имя и число, по id.",
+      "reference_sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM clinic_reports.report_appointments AS a JOIN clinic_reports.report_doctors AS d ON a.doctor_id = d.id GROUP BY d.id, d.full_name ORDER BY d.id LIMIT 100",
+      "reference_rows": 20,
+      "reference_valid": true
+    },
+    {
+      "id": 6,
+      "difficulty": "medium",
+      "question": "Какова выручка каждого врача по завершённым приёмам? Покажи id, имя и сумму, по id.",
+      "reference_sql": "SELECT d.id, d.full_name, SUM(a.price) AS revenue FROM clinic_reports.report_appointments AS a JOIN clinic_reports.report_doctors AS d ON a.doctor_id = d.id WHERE a.status = 'done' GROUP BY d.id, d.full_name ORDER BY d.id LIMIT 100",
+      "reference_rows": 16,
+      "reference_valid": true
+    },
+    {
+      "id": 7,
+      "difficulty": "medium",
+      "question": "Сколько приёмов приходится на каждую специальность врача? Покажи код специальности и количество.",
+      "reference_sql": "SELECT d.specialty, COUNT(*) AS total FROM clinic_reports.report_appointments AS a JOIN clinic_reports.report_doctors AS d ON a.doctor_id = d.id GROUP BY d.specialty ORDER BY d.specialty LIMIT 100",
+      "reference_rows": 4,
+      "reference_valid": true
+    },
+    {
+      "id": 8,
+      "difficulty": "hard",
+      "question": "Какая выручка за текущий календарный месяц? Если приёмов не было, верни 0.",
+      "reference_sql": "SELECT COALESCE(SUM(price), 0) AS revenue FROM clinic_reports.report_appointments WHERE status = 'done' AND date >= DATE_TRUNC('MONTH', CURRENT_DATE) AND date < DATE_TRUNC('MONTH', CURRENT_DATE) + INTERVAL '1 MONTH' LIMIT 100",
+      "reference_rows": 1,
+      "reference_valid": true
+    },
+    {
+      "id": 9,
+      "difficulty": "hard",
+      "question": "Средняя стоимость завершённого приёма в текущем календарном месяце по специальностям: код и среднее до двух знаков.",
+      "reference_sql": "SELECT d.specialty, ROUND(CAST(AVG(a.price) AS DECIMAL), 2) AS average_price FROM clinic_reports.report_appointments AS a JOIN clinic_reports.report_doctors AS d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('MONTH', CURRENT_DATE) AND a.date < DATE_TRUNC('MONTH', CURRENT_DATE) + INTERVAL '1 MONTH' GROUP BY d.specialty ORDER BY d.specialty LIMIT 100",
+      "reference_rows": 0,
+      "reference_valid": true
+    },
+    {
+      "id": 10,
+      "difficulty": "hard",
+      "question": "Какие 5 врачей провели больше всего завершённых приёмов в прошлом календарном месяце? Покажи id, имя, количество. При равенстве сортируй по id.",
+      "reference_sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM clinic_reports.report_appointments AS a JOIN clinic_reports.report_doctors AS d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('MONTH', CURRENT_DATE) - INTERVAL '1 MONTH' AND a.date < DATE_TRUNC('MONTH', CURRENT_DATE) GROUP BY d.id, d.full_name ORDER BY total DESC, d.id LIMIT 5",
+      "reference_rows": 5,
+      "reference_valid": true
+    }
+  ],
+  "accuracy": {},
+  "note": "No patient/result rows or API keys are stored in this file."
+}

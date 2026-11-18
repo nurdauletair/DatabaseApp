@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    path("report/", include("reporting.urls")),
     path("monitoring/", include("performance.urls")),
     path("lab11/", include("performance.urls", namespace="performance_legacy")),
     path("admin/", admin.site.urls),

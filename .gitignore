@@ -11,3 +11,7 @@ staticfiles/
 
 # Local database and settings backups
 .local-backups/
+
+# Additional local environment variants may also contain keys
+.env.*
+!.env.example

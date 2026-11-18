@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Есептер{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div><h1>Есептер</h1><p class="sub">Емхана көрсеткіштерін сұрақ қою арқылы біліңіз</p></div>
+</div>
+<section class="card report-intro">
+  <h2>Қандай дерек қажет?</h2>
+  <p class="muted">Қабылдаулар, дәрігерлер және түсім бойынша сұрақ қойыңыз. Көмекші жазбаларды өзгертпейді.</p>
+  {% if not ready %}<p class="report-notice" role="status">Есеп көмекшісі әзірге қосылмаған. Қосу үшін әкімшіге хабарласыңыз.</p>{% endif %}
+  <form method="post" class="report-form">{% csrf_token %}
+    <div class="field">{{ form.question.label_tag }}{{ form.question }}{{ form.question.errors }}<span class="helptext">{{ form.question.help_text }}</span></div>
+    <button type="submit" {% if not ready %}disabled{% endif %}>Есеп алу</button>
+  </form>
+  <div class="report-examples"><p class="muted">Сұрақ мысалдары:</p><ul>{% for example in examples %}<li>{{ example }}</li>{% endfor %}</ul></div>
+</section>
+{% if error %}<div class="card report-error" role="alert">{{ error }}</div>{% endif %}
+{% if result %}
+<section class="card">
+  <h2>Нәтиже</h2>
+  <p class="muted">{{ row_count }} жол · Ең көбі 100 жол. Оқу қабылдаулары есепке кірмейді.</p>
+  {% if rows %}<div class="table-wrap"><table><thead><tr>{% for col in cols %}<th scope="col">{{ col }}</th>{% endfor %}</tr></thead><tbody>{% for row in rows %}<tr>{% for value in row %}<td>{{ value|default_if_none:"—" }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+  {% else %}<p class="empty">Деректер табылмады.</p>{% endif %}
+  <details class="report-sql"><summary>Есептің SQL сұранысы</summary><pre><code>{{ sql }}</code></pre></details>
+  <p class="helptext">Маңызды шешім қабылдамас бұрын есеп шарттарын тексеріңіз.</p>
+</section>
+{% endif %}
+{% endblock %}
