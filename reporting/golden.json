@@ -1,12 +1,62 @@
 [
-  {"id": 1, "difficulty": "easy", "question": "Сколько всего врачей зарегистрировано?", "sql": "SELECT COUNT(*) AS total FROM report_doctors"},
-  {"id": 2, "difficulty": "easy", "question": "Сколько всего профилей пациентов?", "sql": "SELECT COUNT(*) AS total FROM report_patients"},
-  {"id": 3, "difficulty": "easy", "question": "Сколько всего приёмов без учебных?", "sql": "SELECT COUNT(*) AS total FROM report_appointments"},
-  {"id": 4, "difficulty": "medium", "question": "Сколько приёмов в каждом статусе?", "sql": "SELECT status, COUNT(*) AS total FROM report_appointments GROUP BY status ORDER BY status"},
-  {"id": 5, "difficulty": "medium", "question": "Сколько приёмов у каждого врача, у которого есть приёмы? Покажи id, имя и число, по id.", "sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id GROUP BY d.id, d.full_name ORDER BY d.id"},
-  {"id": 6, "difficulty": "medium", "question": "Какова выручка каждого врача по завершённым приёмам? Покажи id, имя и сумму, по id.", "sql": "SELECT d.id, d.full_name, SUM(a.price) AS revenue FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' GROUP BY d.id, d.full_name ORDER BY d.id"},
-  {"id": 7, "difficulty": "medium", "question": "Сколько приёмов приходится на каждую специальность врача? Покажи код специальности и количество.", "sql": "SELECT d.specialty, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id GROUP BY d.specialty ORDER BY d.specialty"},
-  {"id": 8, "difficulty": "hard", "question": "Какая выручка за текущий календарный месяц? Если приёмов не было, верни 0.", "sql": "SELECT COALESCE(SUM(price), 0) AS revenue FROM report_appointments WHERE status = 'done' AND date >= DATE_TRUNC('month', CURRENT_DATE) AND date < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month'"},
-  {"id": 9, "difficulty": "hard", "question": "Средняя стоимость завершённого приёма в текущем календарном месяце по специальностям: код и среднее до двух знаков.", "sql": "SELECT d.specialty, ROUND(AVG(a.price), 2) AS average_price FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('month', CURRENT_DATE) AND a.date < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' GROUP BY d.specialty ORDER BY d.specialty"},
-  {"id": 10, "difficulty": "hard", "question": "Какие 5 врачей провели больше всего завершённых приёмов в прошлом календарном месяце? Покажи id, имя, количество. При равенстве сортируй по id.", "sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' AND a.date < DATE_TRUNC('month', CURRENT_DATE) GROUP BY d.id, d.full_name ORDER BY total DESC, d.id LIMIT 5"}
+  {
+    "id": 1,
+    "difficulty": "easy",
+    "question": "Емханада барлығы қанша дәрігер тіркелген?",
+    "sql": "SELECT COUNT(*) AS total FROM report_doctors"
+  },
+  {
+    "id": 2,
+    "difficulty": "easy",
+    "question": "Жүйеде барлығы қанша науқас профилі бар?",
+    "sql": "SELECT COUNT(*) AS total FROM report_patients"
+  },
+  {
+    "id": 3,
+    "difficulty": "easy",
+    "question": "Оқу деректерін есептемегенде, барлығы қанша қабылдау бар?",
+    "sql": "SELECT COUNT(*) AS total FROM report_appointments"
+  },
+  {
+    "id": 4,
+    "difficulty": "medium",
+    "question": "Әр күй бойынша қабылдаулар саны қанша? Күй кодын және санын көрсет.",
+    "sql": "SELECT status, COUNT(*) AS total FROM report_appointments GROUP BY status ORDER BY status"
+  },
+  {
+    "id": 5,
+    "difficulty": "medium",
+    "question": "Қабылдаулары бар әр дәрігерде қанша қабылдау бар? id, аты-жөні және санын көрсет. id бойынша сұрыпта.",
+    "sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id GROUP BY d.id, d.full_name ORDER BY d.id"
+  },
+  {
+    "id": 6,
+    "difficulty": "medium",
+    "question": "Әр дәрігердің аяқталған қабылдауларынан түскен жалпы түсім қанша? id, аты-жөні және түсімді көрсет. id бойынша сұрыпта.",
+    "sql": "SELECT d.id, d.full_name, SUM(a.price) AS revenue FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' GROUP BY d.id, d.full_name ORDER BY d.id"
+  },
+  {
+    "id": 7,
+    "difficulty": "medium",
+    "question": "Әр дәрігер мамандығы бойынша қабылдаулар саны қанша? Мамандық кодын және санын көрсет.",
+    "sql": "SELECT d.specialty, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id GROUP BY d.specialty ORDER BY d.specialty"
+  },
+  {
+    "id": 8,
+    "difficulty": "hard",
+    "question": "Осы күнтізбелік айда аяқталған қабылдаулардан қанша түсім түсті? Қабылдау болмаса, нөл көрсет.",
+    "sql": "SELECT COALESCE(SUM(price), 0) AS revenue FROM report_appointments WHERE status = 'done' AND date >= DATE_TRUNC('month', CURRENT_DATE) AND date < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month'"
+  },
+  {
+    "id": 9,
+    "difficulty": "hard",
+    "question": "Осы күнтізбелік айдағы аяқталған қабылдаулардың орташа бағасы әр мамандық бойынша қанша? Мамандық кодын және орташа бағаны үтірден кейін екі таңбаға дейін дөңгелектеп көрсет.",
+    "sql": "SELECT d.specialty, ROUND(AVG(a.price), 2) AS average_price FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('month', CURRENT_DATE) AND a.date < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' GROUP BY d.specialty ORDER BY d.specialty"
+  },
+  {
+    "id": 10,
+    "difficulty": "hard",
+    "question": "Өткен күнтізбелік айда ең көп аяқталған қабылдау өткізген бес дәрігер кім? id, аты-жөні және санын көрсет. Саны бойынша кему ретімен, тең болса id бойынша өсу ретімен сұрыпта.",
+    "sql": "SELECT d.id, d.full_name, COUNT(*) AS total FROM report_appointments a JOIN report_doctors d ON a.doctor_id = d.id WHERE a.status = 'done' AND a.date >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month' AND a.date < DATE_TRUNC('month', CURRENT_DATE) GROUP BY d.id, d.full_name ORDER BY total DESC, d.id LIMIT 5"
+  }
 ]

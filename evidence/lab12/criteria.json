@@ -1,0 +1,38 @@
+{
+  "models_and_data": {
+    "points": 1,
+    "status": "complete",
+    "evidence": "Existing clinic models and preserved data"
+  },
+  "llm_service": {
+    "points": 1.5,
+    "status": "complete",
+    "evidence": "reporting/llm.py and 20 real API responses"
+  },
+  "sql_validation_readonly": {
+    "points": 2,
+    "status": "complete",
+    "evidence": "AST guard, isolated PostgreSQL role, integration tests"
+  },
+  "report_form_sql_table_log": {
+    "points": 1.5,
+    "status": "complete",
+    "evidence": "/report/ and QueryLog"
+  },
+  "unit_tests": {
+    "points": 1,
+    "status": "complete",
+    "evidence": "24 new tests; full suite 118 passed"
+  },
+  "ten_questions_two_prompts_accuracy": {
+    "points": 2,
+    "status": "complete",
+    "evidence": "evaluation.json, evaluation.csv, fixture-check.json"
+  },
+  "pdf_analysis_conclusion": {
+    "points": 1,
+    "status": "complete",
+    "evidence": "reports/Мұратов_Нұрдәулет_ЗС12.pdf"
+  },
+  "note": "This is evidence coverage of the rubric, not a teacher-assigned grade."
+}

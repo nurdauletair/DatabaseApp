@@ -1,0 +1,198 @@
+{
+  "checked_at": "2026-11-18T19:06:35.849073+00:00",
+  "api_calls_made": 0,
+  "dataset": "Synthetic fixture in a newly created disposable PostgreSQL database",
+  "purpose": "Detect vacuous passes on empty production reference results",
+  "production_accuracy": {
+    "baseline": {
+      "correct": 8,
+      "total": 10,
+      "percent": 80.0
+    },
+    "enhanced": {
+      "correct": 9,
+      "total": 10,
+      "percent": 90.0
+    }
+  },
+  "cases": [
+    {
+      "id": 1,
+      "reference_rows": 1,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 2,
+      "reference_rows": 1,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 3,
+      "reference_rows": 1,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 4,
+      "reference_rows": 4,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 4,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 4,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 5,
+      "reference_rows": 6,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 6,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 6,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 6,
+      "reference_rows": 6,
+      "empty_reference": false,
+      "baseline": {
+        "correct": false,
+        "error_type": "UnsafeSQL",
+        "error": "JOIN тек бағандардың теңдігі арқылы орындалады."
+      },
+      "enhanced": {
+        "correct": false,
+        "error_type": "UnsafeSQL",
+        "error": "JOIN тек бағандардың теңдігі арқылы орындалады."
+      }
+    },
+    {
+      "id": 7,
+      "reference_rows": 4,
+      "empty_reference": false,
+      "baseline": {
+        "correct": true,
+        "result_rows": 4,
+        "error_type": ""
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 4,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 8,
+      "reference_rows": 1,
+      "empty_reference": false,
+      "baseline": {
+        "correct": false,
+        "result_rows": 1,
+        "error_type": "result_mismatch"
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 1,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 9,
+      "reference_rows": 4,
+      "empty_reference": false,
+      "baseline": {
+        "correct": false,
+        "result_rows": 0,
+        "error_type": "result_mismatch"
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 4,
+        "error_type": ""
+      }
+    },
+    {
+      "id": 10,
+      "reference_rows": 5,
+      "empty_reference": false,
+      "baseline": {
+        "correct": false,
+        "result_rows": 0,
+        "error_type": "result_mismatch"
+      },
+      "enhanced": {
+        "correct": true,
+        "result_rows": 5,
+        "error_type": ""
+      }
+    }
+  ],
+  "accuracy": {
+    "baseline": {
+      "correct": 6,
+      "total": 10,
+      "percent": 60
+    },
+    "enhanced": {
+      "correct": 9,
+      "total": 10,
+      "percent": 90
+    }
+  },
+  "fixture": {
+    "doctors": 7,
+    "patients": 7,
+    "appointments": 52,
+    "training_appointments": 1,
+    "cases": [
+      "Current month and previous calendar month",
+      "Older month outlier",
+      "All four statuses",
+      "One doctor without appointments",
+      "Training visit excluded",
+      "Unequal appointment counts and prices"
+    ]
+  },
+  "temporary_database_removed": true,
+  "production_database_unchanged": true
+}

@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-18T09:57:26.480562+00:00",
+  "checked_at": "2026-11-18T19:09:48.542574+00:00",
   "tests": {
     "total": 118,
     "passed": 118,
@@ -18,17 +18,39 @@
     "blog_appointment_diagnoses": 60198,
     "blog_patient_doctors": 1
   },
-  "report_non_training_appointments": 100,
-  "reader_is_separate_unprivileged_role": true,
-  "reader_read_only_default": "on",
-  "references_valid": 10,
-  "llm_api_calls_made": 0,
-  "api_key_left_blank_for_owner": true,
-  "env_permissions": "0600",
-  "env_and_backups_ignored": true,
-  "browser_visual_review": "unavailable: browser access host not connected",
-  "remaining": [
-    "Owner creates and enters API key",
-    "Live GPT response and two-prompt accuracy evaluation after key entry"
-  ]
+  "api_key_configured_locally": true,
+  "api_key_published": false,
+  "evaluation_api_calls_made": 20,
+  "website_successful_reports": 8,
+  "production_accuracy": {
+    "baseline": {
+      "correct": 8,
+      "total": 10,
+      "percent": 80.0
+    },
+    "enhanced": {
+      "correct": 9,
+      "total": 10,
+      "percent": 90.0
+    }
+  },
+  "fixture_accuracy": {
+    "baseline": {
+      "correct": 6,
+      "total": 10,
+      "percent": 60
+    },
+    "enhanced": {
+      "correct": 9,
+      "total": 10,
+      "percent": 90
+    }
+  },
+  "fixture_database_removed": true,
+  "env_permissions": "0o600",
+  "browser_visual_review": "unavailable: browser access host not connected; HTTP templates covered by tests",
+  "pdf_visual_review": "passed: all six rendered pages inspected; tables, Kazakh glyphs, SQL operators and margins checked",
+  "pdf_pages": 6,
+  "pdf_sha256": "4a00217baa81171f4516a07b19c22c27c8c69bdb2a4caea61a4d5b7ed5bfcb78",
+  "submission_artifacts_complete": true
 }

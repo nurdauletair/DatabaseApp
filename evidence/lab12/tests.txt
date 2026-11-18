@@ -1,0 +1,6 @@
+Command: REPORT_INTEGRATION_TESTS=1 venv/bin/python manage.py test --verbosity 1 --noinput
+Database: isolated PostgreSQL test_clinic_db
+Ran 118 tests in 11.411s
+OK
+System check identified no issues (0 silenced).
+Migration check: No changes detected
